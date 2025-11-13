@@ -29,6 +29,38 @@ Now I'm into **machine learning, data science, and pen testing**. Still feels li
 
 So here's the thing: I could've charged $99/month for a managed platform that does what this does. I didn't. Because I remember being that kid with a bricked phone and no AWS credits. I remember that desperation to build, to deploy, to prove it could work on *zero* budget.
 
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     USER REQUESTS                          │
+│                (Via Your Custom Domain)                    │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  TIER 1: CLOUDFLARE EDGE NETWORK                           │
+│  • Global DDoS Protection   • Request Routing              │
+│  • Static Content Cache     • SSL/TLS Encryption           │
+│  • Geographic Optimization  • Rate Limiting                │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  TIER 2: RENDER CONTAINERS                                 │
+│  • n8n Automation Engine    • Auto-Scaling                 │
+│  • Workflow Orchestration   • Health Checks                │
+│  • Environment Variables    • Connection Pooling           │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  TIER 3: SUPABASE POSTGRESQL DATABASE                      │
+│  • Row-Level Security       • Real-Time Capabilities       │
+│  • Connection Pooling       • Automated Backups            │
+│  • Query Optimization       • Point-in-Time Recovery       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+
 This guide is me paying it forward.
 
 ---
@@ -98,9 +130,36 @@ The system is built on a three-tier distributed architecture:
 1. **Request Ingestion**: User requests hit Cloudflare edge nodes
 2. **Routing & Caching**: Cloudflare Workers determine if response is cached or needs application processing
 3. **Application Processing**: Non-cached requests route to Render containers running n8n
-4. **Database Access**: n8n workflows interact with Supabase via connection pool
-5. **Response Assembly**: Data is aggregated and returned through Cloudflare cache
-6. **Edge Optimization**: Responses are optimized and served to nearest geographic location
+
+4. ```
+REQUEST
+   |
+   ▼
+[CLOUDFLARE EDGE]
+   |
+   +--[CACHE HIT?]--YES--▶ SERVE FROM CACHE
+   |                      |
+   NO                     |
+   |                      |
+   ▼                      |
+[RENDER CONTAINER]          |
+(n8n Workflow)              |
+   |                        |
+   ▼                        |
+[PROCESS REQUEST]           |
+   |                        |
+   ▼                        |
+[SUPABASE DATABASE]         |
+   |                        |
+   ▼                        |
+[AGGREGATE DATA]            |
+   |                        |
+   +--------▶[RESPONSE]-----▶[CLOUDFLARE CACHE]---▶ CLIENT
+```
+
+5. **Database Access**: n8n workflows interact with Supabase via connection pool
+6. **Response Assembly**: Data is aggregated and returned through Cloudflare cache
+7. **Edge Optimization**: Responses are optimized and served to nearest geographic location
 
 ### Key Performance Characteristics
 
