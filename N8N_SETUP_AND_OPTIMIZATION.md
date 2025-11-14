@@ -78,7 +78,7 @@ QUEUE_MODE=off  # Set to 'bull' with Redis for heavy loads
 Type: CNAME
 Name: n8n
 Target: your-app.onrender.com
-Proxy: Enabled (orange cloud)
+Proxy: DNS only (gray cloud) ⚠️ CRITICAL: DO NOT enable Cloudflare proxy (orange cloud) - it breaks WebSocket connections needed for n8n editor
 TTL: Auto
 ```
 
@@ -312,6 +312,22 @@ EXECUTIONS_DATA_MAX_AGE=24
 - Use environment variables for secrets
 - Enable Cloudflare WAF rules
 - Restrict access by IP if needed
+
+- ## Troubleshooting
+
+**Missing Connection Points (+ Buttons) on Nodes:**
+
+If your n8n nodes don't show connection points (the + buttons to wire nodes together), this is caused by Cloudflare proxy blocking WebSocket connections.
+
+**Solution:**
+- Go to Cloudflare Dashboard → DNS Records
+- Find your n8n subdomain (e.g., n8n.yourdomain.com)
+- Click Edit on the DNS record
+- Change proxy status from "Proxied" (orange cloud) to "DNS only" (gray cloud)
+- Save the changes
+- Refresh your n8n page
+
+The connection points should now appear on all nodes. This issue affects the n8n editor's real-time functionality which requires WebSocket support.
 
 ## Additional Resources
 
