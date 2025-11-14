@@ -1,7 +1,7 @@
 # 🚀 Marvin's Way
-*
-The Unix Philosophy Applied to Web Hosting
-*
+
+*The Unix Philosophy Applied to Web Hosting*
+
 
 ## Who I Am (And How I Got Here)
 
