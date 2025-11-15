@@ -39,3 +39,14 @@ Refer to individual configuration files for implementation details and deploymen
 ## 📝 Notes
 
 All security configurations follow industry best practices and are tailored for production-grade infrastructure with zero-downtime deployment.
+
+
+---
+
+## 📚 Related Setup Guides
+
+These configuration files belong in this security-hardening role and should be reviewed:
+
+- **[CLOUDFLARE_DOMAIN_SETUP.md](../CLOUDFLARE_DOMAIN_SETUP.md)** - Complete domain connection and SSL/TLS setup
+- **[CONTENT_PROTECTION.md](../CONTENT_PROTECTION.md)** - Anti-scraping and content protection strategies
+- **[SECURITY_HARDENING.md](../SECURITY_HARDENING.md)** - Comprehensive security measures guide
