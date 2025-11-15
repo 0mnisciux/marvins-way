@@ -9,7 +9,7 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="permissions-policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
     <meta name="robots" content="noindex, noimageindex, noarchive, nofollow">
-    <title>ORIN AI Agent - Your 24/7 Business Partner</title>
+    <title>ORIN AI - Your 24/7 AI Employee</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,14 +105,12 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-        .card:hover::before {
-            opacity: 1; 
-        }
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-10px) scale(1.03) rotate(-1deg);
             box-shadow: 0 0 40px rgba(56, 248, 168, 0.15);
             border-color: var(--accent-green) !important;
         }
+        .card:hover::before { opacity: 1; }
         html.light .card {
             @apply border-black/10;
         }
@@ -158,12 +156,18 @@
             transform: translateY(0);
         }
         #hero-headline { overflow: hidden; }
-        .char {
+        .word {
             display: inline-block;
-            transform: translateY(50px) rotate(10deg) scale(0.8);
-            transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
-
+        .word:nth-child(1) { transform: translateX(-100%); }
+        .word:nth-child(2) { transform: translateX(100%); }
+        .word:nth-child(3) { transform: translateX(-100%); }
+        .word.is-visible {
+            opacity: 1; transform: translateX(0);
+        }
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -256,6 +260,46 @@
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* Marquee */
+        .marquee {
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-item {
+            @apply inline-flex items-center mx-6 text-2xl font-bold;
+        }
+        .marquee-item i {
+            @apply w-7 h-7 mr-3 text-[var(--accent-green)];
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Horizontal Scroll Section */
+        #features-sticky-container {
+            position: relative;
+            height: 400vh;
+        }
+        #features-scroller {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        #features-scroller .features-grid {
+            display: flex;
+            gap: 2.5rem; /* gap-10 */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -302,7 +346,7 @@
                     <div class="floating-orin mb-12">
                         <img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Agent Avatar" class="w-20 h-28 mx-auto">
                     </div>
-                    <h1 id="hero-headline" class="text-5xl md:text-7xl tracking-tighter font-black text-[var(--heading-color)] leading-tight">
+                    <h1 id="hero-headline" class="text-6xl md:text-8xl lg:text-9xl tracking-tighter font-black text-[var(--heading-color)] leading-none">
                         </h1>
                     <div id="multilingual-ticker" class="mt-8 flex justify-center items-center gap-3 animated-element animate-fade-in" style="transition-delay: 600ms;">
                         <i data-lucide="message-circle" class="w-7 h-7 text-[var(--accent-green)]"></i>
@@ -312,7 +356,7 @@
                     </div>
                     <p class="mt-6 text-lg md:text-2xl text-[var(--gray-text)] max-w-3xl mx-auto leading-relaxed animated-element animate-fade-in" style="transition-delay: 700ms;">
                         AI na “empleyado” mo, 24/7 on duty! 🤖 Benta at customer care, solved agad. 💯 Walang day off, walang reklamo, laging ready magbenta at sumagot sa customers mo. 🚀
-                    </p>
+                    </p> 
                     <div class="mt-16 flex justify-center gap-6 flex-wrap animated-element animate-fade-in" style="transition-delay: 900ms;">
                         <a href="#comparison" class="btn-cta">See The Savings</a>
                         <a href="#features" class="btn-secondary">Learn More</a>
@@ -320,12 +364,18 @@
                 </div>
             </section>
             
-            <section id="features" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+            <section class="py-12 border-y-2 border-[var(--card-border)]">
+                <div class="marquee">
+                    <div class="marquee-content"></div>
+                </div>
+            </section>
+
+            <section id="features" class="py-24 sm:py-32">
+                <div class="text-center mb-20 max-w-4xl mx-auto px-4">
+                    <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">Transform Your Business Operations</h2>
+                    <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is packed with features to supercharge customer interactions.</p>
+                </div>
                 <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-20 max-w-3xl mx-auto">
-                        <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">Transform Your Business Operations</h2>
-                        <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is packed with features to supercharge customer interactions.</p>
-                    </div>
                     <div class="grid grid-cols-6 grid-rows-2 gap-8">
                         <div class="card animated-element animate-fade-in col-span-6 md:col-span-4" style="transition-delay: 200ms;">
                             <i data-lucide="messages-square" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
@@ -364,8 +414,8 @@
             <section id="statistics" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
                      <div class="text-center mb-20 max-w-3xl mx-auto">
-                        <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">Data-Driven Decisions</h2>
-                        <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">The numbers don't lie. See the proven impact of AI.</p>
+                        <h2 class="text-5xl md:text-7xl tracking-tighter font-black text-[var(--heading-color)] animated-element animate-fade-in">The Numbers Don't Lie.</h2>
+                        <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">See the proven impact of AI on business growth and efficiency.</p>
                     </div>
                     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
                         <div class="card animated-element animate-fade-in" style="transition-delay: 200ms;">
@@ -380,17 +430,17 @@
                         </div>
                         <div class="lg:col-span-2 grid md:grid-cols-3 gap-8">
                             <div class="card animated-element animate-fade-in" style="transition-delay: 400ms; padding: 1.5rem 2rem;">
-                                <p class="hyper-text text-5xl font-black mb-2">50%</p>
+                                <p class="hyper-text text-8xl font-black mb-2">50%</p>
                                 <h4 class="text-lg font-bold">Productivity Increase</h4>
                                 <p class="text-sm text-[var(--gray-text)]">Through AI augmentation.</p>
                             </div>
                             <div class="card animated-element animate-fade-in" style="transition-delay: 500ms; padding: 1.5rem 2rem;">
-                                <p class="hyper-text text-5xl font-black mb-2">30%</p>
+                                <p class="hyper-text text-8xl font-black mb-2">30%</p>
                                 <h4 class="text-lg font-bold">Cost Reduction</h4>
                                 <p class="text-sm text-[var(--gray-text)]">In customer service operations.</p>
                             </div>
                             <div class="card animated-element animate-fade-in" style="transition-delay: 600ms; padding: 1.5rem 2rem;">
-                                <p class="hyper-text text-5xl font-black mb-2">75%</p>
+                                <p class="hyper-text text-8xl font-black mb-2">75%</p>
                                 <h4 class="text-lg font-bold">First Contact Resolution</h4>
                                 <p class="text-sm text-[var(--gray-text)]">No more follow-ups needed.</p>
                             </div>
@@ -402,7 +452,7 @@
             <section id="comparison" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
                      <div class="text-center mb-20 max-w-3xl mx-auto">
-                        <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">A Smarter Investment. <span class="hyper-text">A Clearer Choice.</span></h2>
+                        <h2 class="text-5xl md:text-7xl tracking-tighter font-black text-[var(--heading-color)] animated-element animate-fade-in">A Smarter Investment. <span class="hyper-text">A Clearer Choice.</span></h2>
                         <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">The data speaks for itself.</p>
                     </div>
                     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -458,7 +508,7 @@
             <section id="pricing" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl mx-auto text-center animated-element animate-fade-in">
                     <p class="font-semibold text-[var(--accent-green)] text-lg">Limited Offer</p>
-                    <h2 class="text-4xl md:text-5xl tracking-tight mt-4 text-[var(--heading-color)]">Get Your AI Agent Today</h2>
+                    <h2 class="text-5xl md:text-7xl tracking-tighter font-black mt-4 text-[var(--heading-color)]">Get Your AI Agent Today</h2>
                     <p class="mt-6 text-xl text-[var(--gray-text)]">This price is for the first 10 clients only. Don't miss out.</p>
                     <div class="my-12">
                         <p class="text-7xl font-black">₱10,000</p>
@@ -468,7 +518,7 @@
                     <div class="card">
                         <h3 class="font-bold text-3xl">Ready to Start?</h3>
                         <p class="text-[var(--gray-text)] mt-4 text-xl">Click the chat bubble to talk to ORIN AI, or visit our <a href="https://www.facebook.com/orinworks/" target="_blank" rel="noopener noreferrer" class="font-bold text-[var(--accent-green)] hover:underline">Facebook Page!</a> 🚀</p>
-                        <p class="mt-4 text-[var(--gray-text)] text-xl">Call for a discovery session: <strong class="text-[var(--text-color)]">+639310134892</strong></p>
+                        <p class="mt-4 text-[var(--gray-text)] text-xl">Call for a discovery session: <a href="tel:+639310134892" class="font-bold text-[var(--text-color)] hover:text-[var(--accent-green)] transition-colors">+639310134892</a></p>
                     </div>
                 </div>
             </section>
@@ -476,40 +526,40 @@
             <section id="team" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">
                     <div class="text-center mb-20 max-w-3xl mx-auto">
-                        <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">The Minds Behind ORIN AI</h2>
+                        <h2 class="text-5xl md:text-7xl tracking-tighter font-black text-[var(--heading-color)] animated-element animate-fade-in">The Minds Behind <span class="hyper-text">ORIN AI</span></h2>
                         <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is proudly developed by <strong class="text-[var(--accent-green)]">Organic AI Systems & Innovation Solutions (OASIS)</strong>.</p>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="card text-center animated-element animate-fade-in" style="transition-delay: 200ms;">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 200ms;">
                             <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
                                 <img src="https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-6/561151391_10229562957473421_6313752299158348140_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEeTMF49yAKPnKWySmvPIBRRXgNRgZHPTRFeA1GBkc9NBDbnuVaRvDqrI6zHUSMHfw&_nc_ohc=LiuqK1bgYmQQ7kNvwGjBuXj&_nc_oc=Adka9rrNp9WHuL1ohjSqFMqHGofJVFUfp44C2z-fE2BbjPdn1IXLmtUI8BY5CMygCco&_nc_zt=23&_nc_ht=scontent.fpag2-1.fna&_nc_gid=BwqPHZuirEMyrNPImi4foQ&oh=00_Afha2Q-K2TFzM1wRYOYfHlFxxg_7KZO92KD_oXnYJrP0RA&oe=691DA99D" alt="Marvin S. Villanueva" class="w-full h-full object-cover object-left">
                             </div>
-                            <h4 class="text-xl font-bold">Marvin S. Villanueva</h4>
-                            <p class="text-[var(--gray-text)]">CEO, CTO, CFO & Creative Director</p>
+                            <h4 class="text-xl font-bold text-white">Marvin S. Villanueva</h4>
+                            <p class="text-[var(--gray-text)] text-sm">CEO, CTO, CFO & Creative Director</p>
                             <a href="mailto:marvin@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">marvin@orin.work</a>
                         </div>
-                        <div class="card text-center animated-element animate-fade-in" style="transition-delay: 300ms;">
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 300ms;">
                             <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
                                 <img src="https://i.imgur.com/ce1YMPv.png" alt="John Romeo Albano" class="w-full h-full object-cover object-top">
                             </div>
-                            <h4 class="text-xl font-bold">John Romeo Albano</h4>
-                            <p class="text-[var(--gray-text)]">Business Officer</p>
+                            <h4 class="text-xl font-bold text-white">John Romeo Albano</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Business Officer</p>
                             <a href="mailto:meow@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">meow@orin.work</a>
                         </div>
-                        <div class="card text-center animated-element animate-fade-in" style="transition-delay: 400ms;">
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 400ms;">
                             <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
                                 <img src="https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-1/470201414_9765795023447642_6807859288780336132_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeFS60ItFQRlVTfnSCML1pnpC1FfcHtewAALUV9we17AAIne5hINnpraBBnKbPYGbOE&_nc_ohc=aOwAWCuEkbwQ7kNvwHhgrqB&_nc_oc=Adkc2fJn84td4Na0B7R7-fruMUnzbXugL9aT_lZ2Gkw06Tdze3U55Ia-pgyIIYBZF3c&_nc_zt=24&_nc_ht=scontent.fpag2-1.fna&_nc_gid=Ty2CAnG0rqpIzaaxItHrTQ&oh=00_AfjB4IernszkjsLvCut8_ENYlpaXnF6_cE7-s4WXrWrcFA&oe=691DAD68" alt="Gene David Lampa" class="w-full h-full object-cover object-top">
                             </div>
-                            <h4 class="text-xl font-bold">Gene David Lampa</h4>
-                            <p class="text-[var(--gray-text)]">Business Officer & Beta Tester</p>
+                            <h4 class="text-xl font-bold text-white">Gene David Lampa</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Business Officer & Beta Tester</p>
                             <a href="mailto:gene@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">gene@orin.work</a>
                         </div>
-                        <div class="card text-center animated-element animate-fade-in" style="transition-delay: 500ms;">
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 500ms;">
                             <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
                                 <img src="https://preview.redd.it/taro-sakamoto-icon-cleaned-edit-and-remastered-by-me-two-v0-kgpamdq4m0rb1.png?width=640&crop=smart&auto=webp&s=405967562d8822280c7ed17334574e3e238720dc" alt="Roe Romeo Albano" class="w-full h-full object-cover">
                             </div>
-                            <h4 class="text-xl font-bold">Roe Romeo Albano</h4>
-                            <p class="text-[var(--gray-text)]">Investor</p>
+                            <h4 class="text-xl font-bold text-white">Roe Romeo Albano</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Investor</p>
                             <a href="mailto:roe@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">roe@orin.work</a>
                         </div>
                     </div>
@@ -531,31 +581,30 @@
         // --- INITIALIZE ALL MODULES ---
         ThemeManager();
         ScrollAnimations();
-        // InteractiveDemo(); // REMOVED
         ChartsManager();
         MouseEffects();
         CanvasEffects();
         
         // --- GLOBAL INITIALIZATIONS ---
         MultilingualTicker();
-        lucide.createIcons();
+        lucide.createIcons(); // Initial call
+        // Clone marquee content for seamless loop
+        const marqueeContent = document.querySelector('.marquee-content'); 
+        if (marqueeContent) { marqueeContent.innerHTML += marqueeContent.innerHTML; }
+
         animateHeadline();
 
         function animateHeadline() {
             const headline = document.getElementById('hero-headline');
             if (!headline) return;
             const text = "Meet ORIN AI!";
-            headline.innerHTML = ''; // Clear it first
-            text.split('').forEach(char => {
-                const span = document.createElement('span'); span.className = 'char';
-                span.style.opacity = '0'; // Start invisible
-                span.textContent = char === ' ' ? '\u00A0' : char; headline.appendChild(span);
-            });
+            headline.innerHTML = text.split(' ').map(word => `<span class="word">${word}</span>`).join(' ');
             
-            headline.querySelectorAll('.char').forEach((span, index) => {
-                setTimeout(() => {
-                    span.style.opacity = '1'; span.style.transform = 'translateY(0) rotate(0deg) scale(1)';
-                }, 100 + index * 50);
+            // Use a short timeout to ensure elements are in the DOM before animating
+            setTimeout(() => {
+                headline.querySelectorAll('.word').forEach(span => {
+                    span.classList.add('is-visible');
+                });
             });
         }
     });
@@ -578,33 +627,12 @@
             "Bonjour! 😌✨🥖", "Ciao! 😌✨🍝", "Hallo! 😌✨🥨", "Xin chào! 😌✨🍜", "Yassou! 😌✨🏺", "Merhaba! 😌✨☕", "Sawadee ka! 😌✨🥥", "Kumusta?? 😌✨",
             "Magandang araw! 😌☀️", "pabili po 😝✨", "pls sis 😭🙏", "Tag pila ni boss 😭🪙", "hm po?? 😭👉👈", "hm sis 😩✨",
             "How much per unit? 😌📦", "Boss pila ni 😭✨", "I am interested. Price pls.", "Seller pa-reply 😭✨", "hm na beh 😭👉👈", "Sorry po, magkano? 😭✨",
-            "May size chart po? 😌📏", "UwU cutie item 😭✨", "かわいい😭💖🍣", "귀엽다 😭✨🍚", "好可爱 😭✨🐉", "Trop mignon 😭✨🥖",
-            "Che carino 😭✨🍝", "So hübsch 😭✨🥨", "Dễ thương quá 😭✨🍜", "Πολύ χαριτωμένο 😭✨🏺", "Çok tatlı 😭✨☕", "น่ารักมาก 😭✨🥥",
-            "Ayyy sissy cute 😝✨", "HM nalang ani 😭🙏", "Is this authentic? 😌✨", "Original po ba? 😌✨", "Sis last price 😭💸", "Magkano total? 😩✨",
-            "pls tawad ng konti 😭✨", "hm sis wala budget 😭💸", "gusto ko to 😭✨", "pls restock 😭📦", "iloveyou seller 😌✨", "I want 2 pcs 😌✌️",
-            "pili ko tanan 😭✨", "Boss tawad gamay 😭🙏", "Ilang days shipping? 😌📦", "Pickup available po? 😌✨", "Where to pickup? 😌🚗", "pls answer 😭🙏",
-            "Kailangan ko to asap 😩✨", "hm again pls 😭👉👈", "Tagpila tanan? 😌🪙", "UwU bili nako 😌✨", "Sheeesh ang ganda 😭✨", "すごい！！ 😝🔥🍣",
-            "우와!! 😝🔥🍚", "哇！！ 😝🔥🐉", "Oh là là 😝🔥🥖", "Madonna mia 😝🔥🍝", "Alter!! 😝🔥🥨", "Trời ơi 😝🔥🍜",
-            "Ωπα 😝🔥🏺", "Oha! 😝🔥☕", "Omg na sis 😝✨", "pls ko oi 😭✨", "hm sis seryoso na 😩✨", "Maganda ba fabric? 😌🧵",
-            "Real pics pls 😌✨", "pls check order 😭✨", "Kailangan ko pangregalo 😌✨", "hm sis pa ulit 😭👉👈", "Tagpila again? 😭✨", "pila ni karon 😌✨",
-            "Magkano po ulit? 😭✨", "I want this now 😩✨", "Seller kindly update me.", "UwU sana may discount 😌✨", "ang mahal sis 😭💸", "pero worth it 😌✨",
-            "Gracias! 😌💖🌶️", "ありがとう 😌💖🍣", "감사합니다 😌💖🍚", "谢谢你 😌💖🐉", "Merci! 😌💖🥖", "Grazie! 😌💖🍝",
-            "Danke! 😌💖🥨", "Cảm ơn 😌💖🍜", "Ευχαριστώ! 😌💖🏺", "Teşekkürler! 😌💖☕", "ขอบคุณค่ะ 😌💖🥥", "Salamat po 😌💖",
-            "PWEDE PLS 😭✨", "HM boss 😭🪙", "Where location? 😌📍", "UwU pls reply 😭✨", "May warranty po? 😌✨", "Serious buyer here.",
-            "Sis pa-check availability 😌✨", "Mahal sis 😭 pero bili parin", "hm hm hm 😭💸", "tawad naman sis 😭✨", "pls confirm shipping 😌📦", "pabili ako sis 😌✨",
-            "Magkana beh 😭✨", "Tagpila bossing 😌🪙", "pls sis ikaw na bahala 😭✨", "Ano inclusions? 😌✨", "HM hm hm sis 😭👉👈", "uwu desperate buyer 😭✨",
-            "gusto ko sampu 😝✨", "hm po kasi curious ako 😩✨", "hm lods 😭✨", "Magkano yung medium? 😌✨", "pls sis inoorder ko na 😭✨", "Sis excuse me po 😌✨",
-            "Oh no out of stock?? 😭", "Anong payment methods? 😌✨", "Sis legit ba to? 😩✨", "UwU sobrang cute aaa 😭✨", "Need ko to for work 😌📦", "hm bakit walang price 😭",
-            "Ay sis ang ganda 😩✨", "pls assist me 😌✨", "HM for two pcs? 😌✨", "Madam may discount po? 😌💖", "Wala ba sale? 😭✨", "pls tawad sis konti lang 😭✨",
-            "Professional inquiry: kindly provide quotation.", "Sis bakit ang cute 😭✨", "ANONG PRICE PLS 😭", "hm po po po 😭👉👈", "uwu seller halika dito 😝✨", "ganda ng quality? 😌✨",
-            "pls message me back 😩✨", "pila sis pls 😭✨", "UwU cutie purchase 😌✨", "Ang pogi ng item 😭✨", "pls last stock ko na 😭✨", "hm sis naka sale ba? 😌✨",
-            "Ok bili nako 😌✨", "Magkano final price 😩✨", "hm sis pakisagot 😭✨", "UwU im shy pero bili ako 😝✨"
+            "May warranty po? 😌✨", "Serious buyer here."
         ];
         let greetingIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
 
-        // Shuffle the greetings array once at the beginning
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -614,15 +642,10 @@
         shuffleArray(greetings);
 
         function type() {
-            // Use Array.from() to correctly handle multi-byte characters like emojis
             const currentGreetingChars = Array.from(greetings[greetingIndex]);
             const typeSpeed = isDeleting ? 50 : 120;
 
-            if (isDeleting) {
-                textElement.textContent = currentGreetingChars.slice(0, charIndex--).join('');
-            } else {
-                textElement.textContent = currentGreetingChars.slice(0, charIndex++).join('');
-            }
+            textElement.textContent = currentGreetingChars.slice(0, isDeleting ? charIndex-- : charIndex++).join('');
 
             if (!isDeleting && charIndex > currentGreetingChars.length) {
                 isDeleting = true; setTimeout(type, 2000);
@@ -798,6 +821,10 @@
                 this.x += this.directionX;
                 this.y += this.directionY;
                 this.draw();
+
+                // Parallax effect on scroll
+                const scrollY = window.scrollY;
+                this.y += (this.size / 4) * (scrollY - (this.y + scrollY)) * 0.001;
             }
         }
 
