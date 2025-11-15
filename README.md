@@ -4,6 +4,34 @@
 
 ---
 
+## 👋 Who I Am (And How I Got Here)
+
+Hey there. I'm **Marvin Villanueva** - a mechanical engineering student who became absolutely obsessed with tinkering, tweaking, and breaking things (then fixing them). Yeah, *everything* here is self-taught. No formal CS degree. Just curiosity, stubbornness, and a ridiculous amount of time down the Linux rabbit hole.
+
+But real talk? My actual first love was **rooting**. I'm talking CWM days, back when flashing ROMs wasn't just a hobby - it was a lifestyle. I was bricking my phone like a crack addict, sometimes multiple times a *day*. No shame in that game.
+
+Then I got wild with it. Triple-booting Sailfish OS, Android, and Ubuntu Touch on a Xiaomi Mi 3? That was me. That's when everything changed.
+
+### The Rabbit Hole That Started It All
+
+That triple-boot pulled me into **Linux**. Hard. I didn't just use it - I *rebuilt it from scratch*.
+
+I ended up running **Void Linux with Bedrock** (no systemd, thank you very much) on a modded ThinkPad X230 with *78MB RAM on startup*. You read that right. Seventy-eight megabytes. I compiled my own kernel, built my GUI from absolute scratch, tweaked every single line. That's not software engineering - that's *art*.
+
+Eventually, I stopped the daily rooting grind when **Shizuku** came around and **Termux** got seriously powerful. But I didn't stop tinkering. I started running rooted VMs *inside* Android. I compiled **Arch Linux with KDE through Termux X11** and just... lived there. Started writing my own automation scripts. Built a whole parallel universe inside Android.
+
+That dive - that *obsession* - that's what kickstarted my IT career. It taught me something crucial: **the system is just layers**. And if you understand the layers, you can do anything.
+
+---
+
+### What This Became
+
+Now I'm into **machine learning, data science, and pen testing**. Still feels like a bottomless rabbit hole (honestly, it probably is). But it all traces back to that first ROM flash. To the thrill of absolute control. To understanding that everything - *everything* - is just code and configuration.
+
+So here's the thing: I could've charged $99/month for a managed platform that does what this does. I didn't. Because I remember being that kid with a bricked phone and no AWS credits. I remember that desperation to build, to deploy, to prove it could work on *zero* budget.
+
+This guide is me paying it forward.
+
 ## 📝 One Person. Seven Roles. Infinite Possibilities.
 
 This isn't just a stack. It's a philosophical approach to building infrastructure that works *with* entropy, not against it. Seven distinct responsibilities, each following its own Unix principle, unified into something that actually works.
