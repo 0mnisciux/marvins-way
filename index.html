@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security
--Policy" content="default-src 'self'; connect-src 'self' https://connect.facebook.net https://i.imgur.com https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net https://connect.facebook.net 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.facebook.com https://connect.facebook.net; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://connect.facebook.net https://i.imgur.com https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net https://connect.facebook.net 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.facebook.com https://connect.facebook.net; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -279,7 +278,7 @@
         <header class="py-4 px-4 sm:px-6 lg:px-8 sticky top-0 z-50 backdrop-blur-2xl border-b border-[var(--card-border)] bg-[var(--bg-color)]/80">
             <nav class="flex justify-between items-center max-w-7xl mx-auto">
                 <a href="#" class="flex items-center gap-2 text-2xl tracking-tight text-[var(--heading-color)] font-extrabold">
-                    <img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Logo" class="w-8 h-8">
+                    <img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Logo" class="h-8 w-auto">
                     <span>ORIN AI</span>
                 </a>
                 <div class="hidden md:flex items-center gap-6 text-lg font-medium">
@@ -375,7 +374,7 @@
                             <p class="text-center mt-4 text-[var(--gray-text)]">The AI customer service market is set to nearly 4x by 2030.</p>
                         </div>
                         <div class="card animated-element animate-fade-in" style="transition-delay: 300ms;">
-                            <h3 class="text-2xl font-bold mb-6 text-center">The ₱2,499 ROI Revolution</h3>
+                            <h3 class="text-2xl font-bold mb-6 text-center">The ₱10,000 ROI Revolution</h3>
                             <canvas id="roiChart"></canvas>
                              <p class="text-center mt-4 text-[var(--gray-text)]">Unbelievable returns on a one-time investment.</p>
                         </div>
@@ -406,7 +405,7 @@
                         <h2 class="text-4xl md:text-5xl tracking-tight text-[var(--heading-color)] animated-element animate-fade-in">A Smarter Investment. <span class="hyper-text">A Clearer Choice.</span></h2>
                         <p class="mt-6 text-xl text-[var(--gray-text)] animated-element animate-fade-in" style="transition-delay: 150ms;">The data speaks for itself.</p>
                     </div>
-                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
                         <div class="card border-[var(--card-border)] animated-element animate-fade-in">
                             <h3 class="text-3xl font-bold text-center mb-8">Typical Employee</h3>
                             <div class="space-y-4 text-[var(--gray-text)] text-lg">
@@ -434,13 +433,13 @@
                             <div class="absolute top-0 right-6 -mt-5 py-2 px-5 bg-[var(--accent-green)] text-[#0B1120] font-bold text-base rounded-full shadow-lg">Best Value</div>
                             <h3 class="text-3xl font-bold text-center mb-8">ORIN AI Agent</h3>
                             <div class="space-y-4 text-[var(--gray-text)] text-lg">
-                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>One-Time Payment</span><span class="font-semibold text-[var(--text-color)]">₱2,499</span></div>
-                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Optional Tech Assist</span><span class="font-semibold text-[var(--text-color)]">₱500</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>One-Time Payment</span><span class="font-semibold text-[var(--text-color)]">₱10,000</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Optional Tech Assist</span><span class="font-semibold text-[var(--text-color)]">₱1,000</span></div>
                             </div>
                             <div class="my-8 border-t border-dashed border-[var(--card-border)]"></div>
                             <div class="text-center">
                                 <p class="text-[var(--gray-text)] text-xl">Your Yearly Savings</p>
-                                <p class="text-6xl font-extrabold hyper-text mt-2">₱224,000+</p>
+                                <p class="text-6xl font-extrabold hyper-text mt-2">₱215,000+</p>
                             </div>
                             <div class="mt-10">
                                 <h4 class="font-bold text-2xl mb-4 text-center">Benefits:</h4>
@@ -462,9 +461,9 @@
                     <h2 class="text-4xl md:text-5xl tracking-tight mt-4 text-[var(--heading-color)]">Get Your AI Agent Today</h2>
                     <p class="mt-6 text-xl text-[var(--gray-text)]">This price is for the first 10 clients only. Don't miss out.</p>
                     <div class="my-12">
-                        <p class="text-7xl font-black">₱2,499</p>
+                        <p class="text-7xl font-black">₱10,000</p>
                         <p class="text-[var(--gray-text)] mt-2 text-lg">One-Time Payment</p>
-                        <p class="text-base text-[var(--gray-text)]/70 mt-1">(+₱500 for optional future tech assistance)</p>
+                        <p class="text-base text-[var(--gray-text)]/70 mt-1">(+₱1,000 for optional future tech assistance)</p>
                     </div>
                     <div class="card">
                         <h3 class="font-bold text-3xl">Ready to Start?</h3>
@@ -482,24 +481,30 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="card text-center animated-element animate-fade-in" style="transition-delay: 200ms;">
-                            <div class="w-24 h-24 mx-auto rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--card-border)] mb-4"><i data-lucide="user-check" class="w-12 h-12 text-[var(--accent-green)]"></i></div>
+                            <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
+                                <img src="https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-6/561151391_10229562957473421_6313752299158348140_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEeTMF49yAKPnKWySmvPIBRRXgNRgZHPTRFeA1GBkc9NBDbnuVaRvDqrI6zHUSMHfw&_nc_ohc=LiuqK1bgYmQQ7kNvwGjBuXj&_nc_oc=Adka9rrNp9WHuL1ohjSqFMqHGofJVFUfp44C2z-fE2BbjPdn1IXLmtUI8BY5CMygCco&_nc_zt=23&_nc_ht=scontent.fpag2-1.fna&_nc_gid=BwqPHZuirEMyrNPImi4foQ&oh=00_Afha2Q-K2TFzM1wRYOYfHlFxxg_7KZO92KD_oXnYJrP0RA&oe=691DA99D" alt="Marvin S. Villanueva" class="w-full h-full object-cover object-left">
+                            </div>
                             <h4 class="text-xl font-bold">Marvin S. Villanueva</h4>
                             <p class="text-[var(--gray-text)]">CEO, CTO, CFO & Creative Director</p>
+                            <a href="mailto:marvin@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">marvin@orin.work</a>
                         </div>
                         <div class="card text-center animated-element animate-fade-in" style="transition-delay: 300ms;">
                             <div class="w-24 h-24 mx-auto rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--card-border)] mb-4"><i data-lucide="user" class="w-12 h-12 text-[var(--accent-green)]"></i></div>
                             <h4 class="text-xl font-bold">John Romeo Albano</h4>
                             <p class="text-[var(--gray-text)]">Business Officer</p>
+                            <a href="mailto:meow@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">meow@orin.work</a>
                         </div>
                         <div class="card text-center animated-element animate-fade-in" style="transition-delay: 400ms;">
                             <div class="w-24 h-24 mx-auto rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--card-border)] mb-4"><i data-lucide="user" class="w-12 h-12 text-[var(--accent-green)]"></i></div>
                             <h4 class="text-xl font-bold">Gene David Lampa</h4>
                             <p class="text-[var(--gray-text)]">Business Officer & Beta Tester</p>
+                            <a href="mailto:gene@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">gene@orin.work</a>
                         </div>
                         <div class="card text-center animated-element animate-fade-in" style="transition-delay: 500ms;">
                             <div class="w-24 h-24 mx-auto rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--card-border)] mb-4"><i data-lucide="user" class="w-12 h-12 text-[var(--accent-green)]"></i></div>
                             <h4 class="text-xl font-bold">Roe Romeo Albano</h4>
                             <p class="text-[var(--gray-text)]">Investor</p>
+                            <a href="mailto:roe@orin.work" class="block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors">roe@orin.work</a>
                         </div>
                     </div>
                 </div>
@@ -554,33 +559,70 @@
         const textElement = document.getElementById('ticker-text');
         if (!textElement) return;
 
-        const greetings = [
-            "Hello Sissy!",
-            "Maayong adlaw!",
-            "Kumusta?",
-            "Mustah knah? 😜",
-            "こんにちは！お元気ですか？",
-            "hm po?"
+        let greetings = [
+            "Magkano po? 😭👉👈", "hm po sis 😩✨", "How much is this? 😌💵🍔", "¿cuánto cuesta? 😭💸🌶️", "いくらですか？ 😭🫶🍣", "이거 얼마예요? 😭👉🍚",
+            "这个多少钱？ 😭✨🐉", "Combien ça coûte ? 😌🪙🥖", "Quanto costa? 😩💸🍝", "Wie viel kostet das? 😭💶🥨", "Cái này bao nhiêu? 😭👉🍜", "Πόσο κάνει; 😭💸🏺",
+            "Bu ne kadar? 😭👉☕", "อันนี้เท่าไหร่ 😭😩🥥", "Tagpila?? 😌✨", "HM HM HM 😭💸", "hm poh pOw 😭👉👈", "Is this available? 😌✔️🍔",
+            "¿Está disponible? 😭✔️🌶️", "これはありますか？ 😌🔎🍣", "있어요? 😭✔️🍚", "有吗？ 😭🔍🐉", "C’est disponible ? 😭📦🥖", "È disponibile? 😌📦🍝",
+            "Ist es verfügbar? 😩📦🥨", "Còn không? 😭🔍🍜", "Υπάρχει; 😭📦🏺", "Bu mevcut mu? 😌📦☕", "มีไหม 😭📦🥥", "May ara pa? 😩✨",
+            "naa pa? 😌🙏", "Adda pay? 😌✨", "Meron po?? 😭📦", "HM sis 😭✨", "Could you confirm availability? 😌📦", "Is this still on-hand? 😩✔️🍔",
+            "Puede darme un descuento? 😭💸🌶️", "まけてください 😭🙏🍣", "할인돼요? 😭👉🍚", "可以便宜一点吗？ 😭💸🐉", "Pouvez-vous réduire le prix ? 😌💸🥖", "Può faire uno sconto? 😭💸🍝",
+            "Können Sie Rabatt geben? 😭✨🥨", "Có giảm giá không? 😌✨🍜", "Μπορείτε να κάνετε έκπτωση; 😭💸🏺", "İndirim olur mu? 😌💸☕", "ลดได้ไหม 😭✨🥥", "Pwede tawad sis 😭✨",
+            "hm last price 😩💸", "Professional inquiry: kindly send pricing.", "Hello good day po! 😌✨", "こんにちは！お元気ですか？ 😭🫶🍣", "안녕하세요！ 😌✨🍚", "你好！ 😌✨🐉",
+            "Bonjour! 😌✨🥖", "Ciao! 😌✨🍝", "Hallo! 😌✨🥨", "Xin chào! 😌✨🍜", "Yassou! 😌✨🏺", "Merhaba! 😌✨☕", "Sawadee ka! 😌✨🥥", "Kumusta?? 😌✨",
+            "Magandang araw! 😌☀️", "pabili po 😝✨", "pls sis 😭🙏", "Tag pila ni boss 😭🪙", "hm po?? 😭👉👈", "hm sis 😩✨",
+            "How much per unit? 😌📦", "Boss pila ni 😭✨", "I am interested. Price pls.", "Seller pa-reply 😭✨", "hm na beh 😭👉👈", "Sorry po, magkano? 😭✨",
+            "May size chart po? 😌📏", "UwU cutie item 😭✨", "かわいい😭💖🍣", "귀엽다 😭✨🍚", "好可爱 😭✨🐉", "Trop mignon 😭✨🥖",
+            "Che carino 😭✨🍝", "So hübsch 😭✨🥨", "Dễ thương quá 😭✨🍜", "Πολύ χαριτωμένο 😭✨🏺", "Çok tatlı 😭✨☕", "น่ารักมาก 😭✨🥥",
+            "Ayyy sissy cute 😝✨", "HM nalang ani 😭🙏", "Is this authentic? 😌✨", "Original po ba? 😌✨", "Sis last price 😭💸", "Magkano total? 😩✨",
+            "pls tawad ng konti 😭✨", "hm sis wala budget 😭💸", "gusto ko to 😭✨", "pls restock 😭📦", "iloveyou seller 😌✨", "I want 2 pcs 😌✌️",
+            "pili ko tanan 😭✨", "Boss tawad gamay 😭🙏", "Ilang days shipping? 😌📦", "Pickup available po? 😌✨", "Where to pickup? 😌🚗", "pls answer 😭🙏",
+            "Kailangan ko to asap 😩✨", "hm again pls 😭👉👈", "Tagpila tanan? 😌🪙", "UwU bili nako 😌✨", "Sheeesh ang ganda 😭✨", "すごい！！ 😝🔥🍣",
+            "우와!! 😝🔥🍚", "哇！！ 😝🔥🐉", "Oh là là 😝🔥🥖", "Madonna mia 😝🔥🍝", "Alter!! 😝🔥🥨", "Trời ơi 😝🔥🍜",
+            "Ωπα 😝🔥🏺", "Oha! 😝🔥☕", "Omg na sis 😝✨", "pls ko oi 😭✨", "hm sis seryoso na 😩✨", "Maganda ba fabric? 😌🧵",
+            "Real pics pls 😌✨", "pls check order 😭✨", "Kailangan ko pangregalo 😌✨", "hm sis pa ulit 😭👉👈", "Tagpila again? 😭✨", "pila ni karon 😌✨",
+            "Magkano po ulit? 😭✨", "I want this now 😩✨", "Seller kindly update me.", "UwU sana may discount 😌✨", "ang mahal sis 😭💸", "pero worth it 😌✨",
+            "Gracias! 😌💖🌶️", "ありがとう 😌💖🍣", "감사합니다 😌💖🍚", "谢谢你 😌💖🐉", "Merci! 😌💖🥖", "Grazie! 😌💖🍝",
+            "Danke! 😌💖🥨", "Cảm ơn 😌💖🍜", "Ευχαριστώ! 😌💖🏺", "Teşekkürler! 😌💖☕", "ขอบคุณค่ะ 😌💖🥥", "Salamat po 😌💖",
+            "PWEDE PLS 😭✨", "HM boss 😭🪙", "Where location? 😌📍", "UwU pls reply 😭✨", "May warranty po? 😌✨", "Serious buyer here.",
+            "Sis pa-check availability 😌✨", "Mahal sis 😭 pero bili parin", "hm hm hm 😭💸", "tawad naman sis 😭✨", "pls confirm shipping 😌📦", "pabili ako sis 😌✨",
+            "Magkana beh 😭✨", "Tagpila bossing 😌🪙", "pls sis ikaw na bahala 😭✨", "Ano inclusions? 😌✨", "HM hm hm sis 😭👉👈", "uwu desperate buyer 😭✨",
+            "gusto ko sampu 😝✨", "hm po kasi curious ako 😩✨", "hm lods 😭✨", "Magkano yung medium? 😌✨", "pls sis inoorder ko na 😭✨", "Sis excuse me po 😌✨",
+            "Oh no out of stock?? 😭", "Anong payment methods? 😌✨", "Sis legit ba to? 😩✨", "UwU sobrang cute aaa 😭✨", "Need ko to for work 😌📦", "hm bakit walang price 😭",
+            "Ay sis ang ganda 😩✨", "pls assist me 😌✨", "HM for two pcs? 😌✨", "Madam may discount po? 😌💖", "Wala ba sale? 😭✨", "pls tawad sis konti lang 😭✨",
+            "Professional inquiry: kindly provide quotation.", "Sis bakit ang cute 😭✨", "ANONG PRICE PLS 😭", "hm po po po 😭👉👈", "uwu seller halika dito 😝✨", "ganda ng quality? 😌✨",
+            "pls message me back 😩✨", "pila sis pls 😭✨", "UwU cutie purchase 😌✨", "Ang pogi ng item 😭✨", "pls last stock ko na 😭✨", "hm sis naka sale ba? 😌✨",
+            "Ok bili nako 😌✨", "Magkano final price 😩✨", "hm sis pakisagot 😭✨", "UwU im shy pero bili ako 😝✨"
         ];
         let greetingIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
 
+        // Shuffle the greetings array once at the beginning
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        shuffleArray(greetings);
+
         function type() {
-            const currentGreeting = greetings[greetingIndex];
+            // Use Array.from() to correctly handle multi-byte characters like emojis
+            const currentGreetingChars = Array.from(greetings[greetingIndex]);
             const typeSpeed = isDeleting ? 50 : 120;
 
             if (isDeleting) {
-                textElement.textContent = currentGreeting.substring(0, charIndex--);
+                textElement.textContent = currentGreetingChars.slice(0, charIndex--).join('');
             } else {
-                textElement.textContent = currentGreeting.substring(0, charIndex++);
+                textElement.textContent = currentGreetingChars.slice(0, charIndex++).join('');
             }
 
-            if (!isDeleting && charIndex === currentGreeting.length) {
+            if (!isDeleting && charIndex > currentGreetingChars.length) {
                 isDeleting = true; setTimeout(type, 2000);
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false; greetingIndex = (greetingIndex + 1) % greetings.length; setTimeout(type, 500);
-            } else { setTimeout(type, typeSpeed); }
+            } else { setTimeout(type, typeSpeed + Math.random() * 50); }
         }
         type();
     }
@@ -665,7 +707,7 @@
             Chart.defaults.color = colors.tickColor;
 
             window.chartInstances.roiChart = new Chart(ctx, {
-                type: 'bar', data: { labels: ['Small Biz', 'Medium Biz', 'Large Biz', 'Enterprise'], datasets: [{ label: 'Annual ROI (%)', data: [4898, 24490, 97959, 489796], backgroundColor: ['#3B82F680', '#8B5CF680', '#DB277780', colors.accentGreen + '80'], borderColor: ['#3B82F6', '#8B5CF6', '#DB2777', colors.accentGreen], borderWidth: 2, borderRadius: 6 }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { y: { ticks: { color: colors.tickColor }, grid: { display: false } }, x: { type: 'logarithmic', ticks: { color: colors.tickColor, callback: (value) => { if(value === 1000 || value === 10000 || value === 100000 || value === 1000000) return value.toLocaleString() + '%'; } }, grid: { color: colors.gridColor } } } }
+                type: 'bar', data: { labels: ['Small Biz', 'Medium Biz', 'Large Biz', 'Enterprise'], datasets: [{ label: 'Annual ROI (%)', data: [2158, 10792, 43171, 215857], backgroundColor: ['#3B82F680', '#8B5CF680', '#DB277780', colors.accentGreen + '80'], borderColor: ['#3B82F6', '#8B5CF6', '#DB2777', colors.accentGreen], borderWidth: 2, borderRadius: 6 }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { y: { ticks: { color: colors.tickColor }, grid: { display: false } }, x: { type: 'logarithmic', ticks: { color: colors.tickColor, callback: (value) => { if(value === 1000 || value === 10000 || value === 100000 || value === 1000000) return value.toLocaleString() + '%'; } }, grid: { color: colors.gridColor } } } }
             });
         }
 
