@@ -84,4 +84,48 @@ A: No. Option 1 needs zero Git knowledge.
 
 ---
 
+## 🚨 CRITICAL FIX: package.json Breaking Static Site Deployment
+
+### The Issue
+If your Render static site deployment keeps failing with **`npm error code TARGET`** or **`npm error code ERESOLVE`**, the culprit is likely a `package.json` file in your repository.
+
+**Why?** Render detects `package.json` and automatically assumes your project is a Node.js application, triggering npm install and build processes. For pure static HTML sites, this causes build failures because:
+- There's no build script to run
+- Dependencies can't be resolved for a static-only site
+- Render tries to execute npm commands on non-existent scripts
+
+### The Solution
+**DELETE the `package.json` file** if your site is purely static HTML/CSS/JS.
+
+Steps:
+1. Go to your GitHub repo
+2. Find and open `package.json`
+3. Click the three-dot menu → "Delete file"
+4. Commit the deletion with message: "Delete package.json - static site only"
+5. Trigger a manual deploy on Render Dashboard
+6. ✅ Deployment should now succeed
+
+### Why This Works
+Once `package.json` is deleted, Render correctly identifies your project as a **Static Site** and:
+- Skips npm dependency resolution
+- Directly serves files from the Publish Directory (default: `./`)
+- No build process needed
+- Deployment completes in seconds
+
+### Timeline Example
+**Before Fix:**
+- ❌ Deploy failed with npm errors
+- ❌ Multiple failed attempts
+- ❌ "Exited with status 1 while building your code"
+
+**After Fix:**
+- ✅ Deploy live for [commit hash]: Delete package.json
+- ✅ Zero-downtime deployment
+- ✅ Site immediately live at orin.work
+
+### Key Takeaway
+**For static-only sites: Keep your repo clean of build configuration files** (`package.json`, `gulpfile.js`, `webpack.config.js`, etc.) to let Render serve your static assets directly without attempting compilation.
+
+---
+
 Questions? Check the README or deployment logs on Render.
