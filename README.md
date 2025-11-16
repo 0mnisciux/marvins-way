@@ -229,16 +229,19 @@ Each choice based on:
 
 ---
 
-## Contact & Questions
+## Reach Out
 
-Don't know where to start? Have questions? Found something broken? This isn't a corporate support line. This is a conversation.
+Got questions? Found something broken? Want to build on top of this?
 
-**Direct Contact:**
-- Questions, feedback, or ideas: [Visit Orin.Work](https://orin.work/)
-- Want to chat with Orin AI?: [Find us on Facebook](https://www.facebook.com/orinworks)
+Hit me up directly:
 
-If you're serious about building something better, the infrastructure is here. The tools are open. The door is unlocked. What you do next is up to you.
+- **Email:** [marvin@orin.work](mailto:marvin@orin.work)
+- **GitHub:** Open an issue, contribute, make it yours
+- **Orin AI:** That's the n8n automation running this whole thing. If you want to talk to what we built, visit [https://orin.work/](https://orin.work/) or [https://www.facebook.com/orinworks](https://www.facebook.com/orinworks)
 
+No corporate support tiers. No waiting in queues. Just builders talking to builders.
+
+---
 ---
 
 Let's Go
