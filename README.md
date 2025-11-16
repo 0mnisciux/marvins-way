@@ -235,23 +235,18 @@ Each choice based on:
 - **Issues/Questions:** Open a GitHub issue. I respond.
 - **Improvements:** PRs welcome. This is open source.
 
-Built on the belief that good infrastructure is possible. And necessary.
+Let's Go
+--------
 
-Run it. Modify it. Make it yours. Then help someone else do the same.
+* **GitHub:** [@makagagahum](https://github.com/makagagahum)
+* **Issues/Questions:** Open a GitHub issue. I respond.
+* **Improvements:** PRs welcome. This is open source.
 
+Good infrastructure is possible. Open source. Self-hosted. Yours to modify.
 
+Run it. Make it yours. Then help the next person do the same.
 
----
-
-<div align="center">
-
-**Built for the next person. Not for vanity.**
-
-Open source. Self-hosted. Yours to modify.
-
-*The Unix way: Do one thing, do it well, chain it ruthlessly.*
-
-![Insights Processed](https://komarev.com/ghpvc/?username=makagagahum&color=8A2BE2&style=flat-square&label=LAYERS+EXAMINED)
+[Insights Processed](https://camo.githubusercontent.com/df7694a097f0a0d0855e7a1583264768b06231302d15938db54cdb13d701f3bf/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d6d616b616761676168756d26636f6c6f723d384132424532267374796c653d666c61742d737175617265266c6162656c3d4c41594552532b4558414d494e4544)
 
 </div>
 
