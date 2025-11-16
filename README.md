@@ -229,6 +229,18 @@ Each choice based on:
 
 ---
 
+## Contact & Questions
+
+Don't know where to start? Have questions? Found something broken? This isn't a corporate support line. This is a conversation.
+
+**Direct Contact:**
+- Questions, feedback, or ideas: [Visit Orin.Work](https://orin.work/)
+- Want to chat with Orin AI?: [Find us on Facebook](https://www.facebook.com/orinworks)
+
+If you're serious about building something better, the infrastructure is here. The tools are open. The door is unlocked. What you do next is up to you.
+
+---
+
 Let's Go
 --------
 
