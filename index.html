@@ -1,509 +1,637 @@
-< !DOCTYPE html><html lang="en" class="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://connect.facebook.net https://i.imgur.com https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net https://connect.facebook.net 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.facebook.com https://connect.facebook.net; object-src 'none'; base-uri 'self'; frame-ancestors 'none';"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta http-equiv="X-Frame-Options" content="DENY"><meta name="permissions-policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()"><meta name="robots" content="noindex, noimageindex, noarchive, nofollow"><title>ORIN AI - Your 24/7 AI Employee</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><script src="https://unpkg.com/lucide@latest"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style> :root {
-    --bg-color: #0B1120;
-    --text-color: #E0E7FF;
-    --card-bg: #1A2035;
-    --card-border: #2A3352;
-    --gray-text: #A0AEC0;
-    --heading-color: #ffffff;
-    --accent-green: #38F8A8;
-    --accent-green-dark: #2DD4BF;
-    --font-sans: 'Inter', sans-serif;
-}
-
-html.light {
-    --bg-color: #F7FAFC;
-    --text-color: #2D3748;
-    --card-bg: #ffffff;
-    --card-border: #E2E8F0;
-    --gray-text: #718096;
-    --heading-color: #1A202C;
-    --accent-green: #2DD4BF;
-    --accent-green-dark: #2C5282;
-}
-
-body {
-    font-family: var(--font-sans);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-weight: 300;
-    /* font-light */
-    transition: background-color 0.3s ease, color 0.3s ease;
-    overflow-x: hidden;
-    user-select: none;
-    /* Harden: Disable text selection */
-}
-
-#noise-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    opacity: 0.03;
-    z-index: 0;
-    pointer-events: none;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
-}
-
-#background-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.7;
-}
-
-.page-wrapper {
-    position: relative;
-    z-index: 1;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-weight: 900;
-    /* font-black */
-    letter-spacing: -0.05em;
-    /* tracking-tighter */
-}
-
-.hyper-text {
-    background: linear-gradient(90deg, var(--accent-green), var(--accent-green-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-flow 5s ease-in-out infinite;
-    background-size: 200% 200%;
-}
-
-@keyframes gradient-flow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-.card {
-    @apply bg-[var(--card-bg)]/60 backdrop-blur-2xl border border-white/10 rounded-2xl p-10 relative overflow-hidden;
-    transition: transform 0.3s ease-out, backdrop-filter 0.3s ease-out, border-color 0.3s ease-out;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    backdrop-filter: blur(40px);
-    /* Increased blur on hover */
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-html.light .card {
-    @apply border-black/10;
-}
-
-/* Refactored Button Component Classes */
-.btn {
-    @apply rounded-lg font-bold text-lg transition-all duration-300 ease-out;
-}
-
-.btn-cta {
-    @apply btn bg-[var(--accent-green)] text-[#0B1120] py-4 px-8 relative overflow-hidden;
-    box-shadow: 0 0 20px rgba(56, 248, 168, 0.3);
-}
-
-.btn-cta:hover {
-    @apply transform -translate-y-1 scale-105 brightness-110;
-    box-shadow: 0 0 35px rgba(56, 248, 168, 0.6);
-}
-
-.btn-cta-sm {
-    @apply btn-cta text-sm py-2 px-5;
-}
-
-.btn-secondary {
-    @apply btn bg-transparent text-[var(--text-color)] border-2 border-[var(--card-border)] py-4 px-8 relative overflow-hidden;
-    background-clip: padding-box;
-}
-
-.btn-secondary:hover {
-    @apply transform -translate-y-1 border-[var(--accent-green)] text-[#0B1120];
-    background-color: var(--accent-green);
-}
-
-/* Animations */
-.animated-element {
-    opacity: 0;
-    transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.animate-fade-in {
-    transform: translateY(80px);
-}
-
-.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#hero-headline {
-    overflow: hidden;
-}
-
-.word {
-    display: inline-block;
-    white-space: nowrap;
-    opacity: 0;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.word:nth-child(1) {
-    transform: translateX(-100%);
-}
-
-.word:nth-child(2) {
-    transform: translateX(100%);
-}
-
-.word:nth-child(3) {
-    transform: translateX(-100%);
-}
-
-.word.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-
-    100% {
-        transform: translateY(0px);
-    }
-}
-
-.floating-orin {
-    animation: float 6s ease-in-out infinite;
-}
-
-.hero-bg {
-    position: relative;
-    overflow: hidden;
-}
-
-/* Form Styles */
-.generator-form input,
-.generator-form textarea {
-    @apply w-full p-4 rounded-lg border-2 transition-all duration-200 ease-in-out !p-4;
-    background-color: #ffffff;
-    color: #1A202C;
-    border-color: #E2E8F0;
-}
-
-.generator-form input::placeholder,
-.generator-form textarea::placeholder {
-    color: #A0AEC0;
-}
-
-html.dark .generator-form input,
-html.dark .generator-form textarea {
-    background-color: #1A2035;
-    color: #0B1120;
-    border-color: var(--card-border);
-    color: var(--text-color);
-}
-
-html.dark .generator-form input::placeholder,
-html.dark .generator-form textarea::placeholder {
-    color: #718096;
-}
-
-.generator-form input:focus,
-.generator-form textarea:focus {
-    outline: none;
-    border-color: transparent;
-    box-shadow: none;
-    background-image: linear-gradient(to right, var(--accent-green), var(--accent-green-dark));
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-}
-
-#chat-window {
-    height: 400px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-}
-
-.message {
-    @apply max-w-[80%] mb-3 py-3 px-5;
-}
-
-.user-message {
-    @apply bg-[var(--accent-green)] text-[#0B1120] self-end rounded-2xl rounded-br-md;
-}
-
-.orin-message {
-    @apply bg-[var(--card-bg)] border border-[var(--card-border)] self-start rounded-2xl rounded-bl-md;
-}
-
-#chat-input {
-    @apply w-full p-4 rounded-lg focus:ring-0 border overflow-y-hidden resize-none;
-    background-color: #ffffff;
-    color: #1A202C;
-    border-color: #E2E8F0;
-}
-
-#chat-input:focus {
-    outline: none;
-    border-color: var(--accent-green);
-    box-shadow: none;
-}
-
-html.dark #chat-input {
-    background-color: #E0E7FF;
-    color: #0B1120;
-    border-color: var(--card-border);
-}
-
-#chat-input::placeholder {
-    color: #A0AEC0;
-}
-
-html.dark #chat-input::placeholder {
-    color: #718096;
-}
-
-/* Theme Toggle Icon Visibility */
-html:not(.dark) .moon-icon {
-    display: none;
-}
-
-html.dark .sun-icon {
-    display: none;
-}
-
-/* Multilingual Ticker */
-#ticker-text {
-    font-size: 1.25rem;
-    /* text-xl */
-    font-weight: 500;
-    /* medium */
-    color: var(--gray-text);
-}
-
-.typing-cursor {
-    font-weight: 300;
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-
-    from,
-    to {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-}
-
-/* Marquee */
-.marquee {
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    white-space: nowrap;
-}
-
-.marquee-content {
-    display: inline-block;
-    animation: marquee 30s linear infinite;
-}
-
-.marquee-item {
-    @apply inline-flex items-center mx-6 text-2xl font-bold;
-}
-
-.marquee-item i {
-    @apply w-7 h-7 mr-3 text-[var(--accent-green)];
-}
-
-@keyframes marquee {
-    0% {
-        transform: translateX(0%);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-/* Horizontal Scroll Section */
-#features-sticky-container {
-    position: relative;
-    height: 400vh;
-}
-
-#features-scroller {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
-
-#features-scroller .features-grid {
-    display: flex;
-    gap: 2.5rem;
-    /* gap-10 */
-}
-
-/* Pricing Box Style */
-.pricing-box {
-    position: relative;
-    padding: 2px;
-    /* Creates space for the border */
-    border-radius: 1.5rem;
-    /* rounded-3xl */
-    background: linear-gradient(120deg, var(--accent-green), var(--accent-green-dark), #8B5CF6);
-    background-size: 200% 200%;
-    animation: pulse-glow 4s ease-in-out infinite;
-}
-
-.pricing-box-inner {
-    background-color: #111827;
-    /* A slightly darker bg for contrast */
-    border-radius: calc(1.5rem - 2px);
-}
-
-html.light .pricing-box-inner {
-    background-color: #F9FAFB;
-}
-
-@keyframes pulse-glow {
-
-    0%,
-    100% {
-        background-position: 0% 50%;
-        box-shadow: 0 0 30px -5px rgba(56, 248, 168, 0.4);
-    }
-
-    50% {
-        background-position: 100% 50%;
-        box-shadow: 0 0 50px 0px rgba(56, 248, 168, 0.7);
-    }
-}
-
-.news-ticker-flash {
-    animation: urgent-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes urgent-pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 20px -5px rgba(56, 248, 168, 0.5);
-    }
-
-    50% {
-        box-shadow: 0 0 35px 0px rgba(56, 248, 168, 0.8);
-    }
-}
-
-/* Easter Egg Styles */
-#easter-egg-toast {
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    opacity: 0;
-    transform: translate(-50%, 20px);
-    pointer-events: none;
-}
-
-#easter-egg-toast.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
-
-#game-container {
-    display: none;
-    /* Initially hidden */
-}
-
-#game-container.active {
-    display: block;
-    /* Show when active */
-}
-
-#game-canvas {
-    background: #000000;
-    border: 2px solid var(--accent-green);
-    border: 2px solid #2121DE;
-    border-radius: 1rem;
-}
-
-</style></head><body class="antialiased"><canvas id="background-canvas"></canvas><div id="noise-overlay"></div><div class="page-wrapper"><div id="fb-root"></div><script>window.fbAsyncInit=function() {
-    FB.init({
-        xfbml: true, version: 'v18.0'
-    });
-}
-
-;
-
-(function(d, s, id) {
-        var js, fjs=d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js=d.createElement(s); js.id=id;
-        js.src='https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }
-
-    (document, 'script', 'facebook-jssdk'));
-</script><div class="fb-customerchat" attribution="biz_inbox" page_id="100063623736284"></div><main class="pb-32"><section class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 hero-bg"><div class="max-w-5xl mx-auto text-center"><div id="hero-orin-trigger" class="floating-orin mb-12 cursor-pointer"><img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Agent Avatar" class="w-20 h-28 mx-auto" loading="lazy"></div><h1 id="hero-headline" class="text-6xl md:text-8xl lg:text-9xl tracking-tighter font-black text-[var(--heading-color)] leading-none"></h1><div id="multilingual-ticker" class="mt-8 flex justify-center items-center gap-3 animated-element animate-fade-in" style="transition-delay: 600ms;"><i data-lucide="message-circle" class="w-7 h-7 text-[var(--accent-green)]"></i><div id="ticker-text-container" class="h-8"><span id="ticker-text"></span><span class="typing-cursor text-2xl text-[var(--gray-text)]">|</span></div></div><p class="mt-6 text-lg md:text-2xl text-[var(--gray-text)] max-w-3xl mx-auto leading-relaxed animated-element animate-fade-in" style="transition-delay: 700ms;">AI na “empleyado” mo,
-24/7 on duty ! 🤖 Benta at customer care,
-solved agad. 💯 Walang day off,
-walang reklamo,
-laging ready magbenta at sumagot sa customers mo. 🚀 </p><div class="mt-16 flex justify-center gap-6 flex-wrap animated-element animate-fade-in" style="transition-delay: 900ms;"><a href="#comparison" class="btn-cta">See The Savings</a><a href="#features" class="btn-secondary">Learn More</a></div></div></section><section id="features" class="py-20 sm:py-32"><div class="text-center mb-20 max-w-4xl mx-auto px-4"><h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">Transform Your Business Operations</h2><p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is packed with features to supercharge customer interactions.</p></div><div class="max-w-7xl mx-auto"><div class="grid grid-cols-6 grid-rows-2 gap-8"><div class="card animated-element animate-fade-in col-span-6 md:col-span-4" style="transition-delay: 200ms;"><i data-lucide="messages-square" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Natural Conversations</h4><p class="text-[var(--gray-text)] text-lg">Speaks 100+languages & styles: Taglish,
-Bisaya,
-English,
-and more.</p></div><div class="card animated-element animate-fade-in col-span-6 md:col-span-2" style="transition-delay: 300ms;"><i data-lucide="image" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Reads Photos</h4><p class="text-[var(--gray-text)] text-lg">Understands images like IDs & receipts.</p></div><div class="card animated-element animate-fade-in col-span-6 md:col-span-2" style="transition-delay: 400ms;"><i data-lucide="mic" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Understands Voice</h4><p class="text-[var(--gray-text)] text-lg">Responds to customer audio messages.</p></div><div class="card animated-element animate-fade-in col-span-6 md:col-span-4" style="transition-delay: 500ms;"><i data-lucide="brain-circuit" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Contextual Memory</h4><p class="text-[var(--gray-text)] text-lg">Remembers past chats to provide smarter,
-more relevant responses.</p></div><div class="card animated-element animate-fade-in col-span-3 md:col-span-3" style="transition-delay: 600ms;"><i data-lucide="clock" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Always On,
-24/7</h4><p class="text-[var(--gray-text)] text-lg">No sick days,
-no complaints.</p></div><div class="card animated-element animate-fade-in col-span-3 md:col-span-3" style="transition-delay: 700ms;"><i data-lucide="rocket" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i><h4 class="text-2xl font-bold mb-3">Quick Setup</h4><p class="text-[var(--gray-text)] text-lg">Ready to go in just 3 days.</p></div></div></div></section><section id="statistics" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8"><div class="max-w-7xl mx-auto"><div class="text-center mb-20 max-w-3xl mx-auto"><h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">The Numbers Don't Lie.</h2>
- <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">See the proven impact of AI on business growth and efficiency.</p></div><div class="grid lg:grid-cols-2 gap-8 lg:gap-12"><div class="card animated-element animate-fade-in" style="transition-delay: 200ms;"><h3 class="text-2xl font-bold mb-6 text-center">AI Market is Exploding</h3><canvas id="marketGrowthChart"></canvas><p class="text-center mt-4 text-[var(--gray-text)]">The AI customer service market is set to nearly 4x by 2030.</p></div><div class="card animated-element animate-fade-in" style="transition-delay: 300ms;"><h3 class="text-2xl font-bold mb-6 text-center">The ₱10,
-000 ROI Revolution</h3><canvas id="roiChart"></canvas><p class="text-center mt-4 text-[var(--gray-text)]">Unbelievable returns on a one-time investment.</p></div><div class="lg:col-span-2 grid md:grid-cols-3 gap-8"><div class="card animated-element animate-fade-in" style="transition-delay: 400ms; padding: 1.5rem 2rem;"><p class="hyper-text text-8xl font-black mb-2">50%</p><h4 class="text-lg font-bold">Productivity Increase</h4><p class="text-sm text-[var(--gray-text)]">Through AI augmentation.</p></div><div class="card animated-element animate-fade-in" style="transition-delay: 500ms; padding: 1.5rem 2rem;"><p class="hyper-text text-8xl font-black mb-2">30%</p><h4 class="text-lg font-bold">Cost Reduction</h4><p class="text-sm text-[var(--gray-text)]">In customer service operations.</p></div><div class="card animated-element animate-fade-in" style="transition-delay: 600ms; padding: 1.5rem 2rem;"><p class="hyper-text text-8xl font-black mb-2">75%</p><h4 class="text-lg font-bold">First Contact Resolution</h4><p class="text-sm text-[var(--gray-text)]">No more follow-ups needed.</p></div></div></div></div></section><section id="comparison" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8"><div class="max-w-7xl mx-auto"><div class="text-center mb-20 max-w-3xl mx-auto"><h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">A Smarter Investment. <span class="hyper-text">A Clearer Choice.</span></h2><p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">The data speaks for itself.</p></div><div class="grid lg:grid-cols-2 gap-8 lg:gap-12"><div class="card border-[var(--card-border)] animated-element animate-fade-in"><h3 class="text-3xl font-bold text-center mb-8">Typical Employee</h3><div class="space-y-4 text-[var(--gray-text)] text-lg"><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Salary (₱15k/mo)</span><span class="font-semibold text-[var(--text-color)]">₱180,
-000</span></div><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>13th Month Pay</span><span class="font-semibold text-[var(--text-color)]">₱15,
-000</span></div><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Benefits</span><span class="font-semibold text-[var(--text-color)]">₱18,
-972</span></div><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Other Costs</span><span class="font-semibold text-[var(--text-color)]">~₱12,
-885</span></div></div><div class="my-8 border-t border-dashed border-[var(--card-border)]"></div><div class="text-center"><p class="text-[var(--gray-text)] text-xl">Total Yearly Cost</p><p class="text-5xl font-extrabold text-red-400 mt-2">₱226,
-857</p></div><div class="mt-10"><h4 class="font-bold text-2xl mb-4 text-center">Common Issues:</h4><ul class="space-y-3 text-[var(--gray-text)] text-lg"><li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Absent at late</li><li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Nawawalan ng gana</li><li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Kailangan ng training</li><li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Minsan sablay</li></ul></div></div><div class="card border-[var(--accent-green)] animated-element animate-fade-in" style="transition-delay: 150ms;"><div class="absolute top-0 right-6 -mt-5 py-2 px-5 bg-[var(--accent-green)] text-[#0B1120] font-bold text-base rounded-full shadow-lg">Best Value</div><h3 class="text-3xl font-bold text-center mb-8">ORIN AI Agent</h3><div class="space-y-4 text-[var(--gray-text)] text-lg"><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>One-Time Payment</span><span class="font-semibold text-[var(--text-color)]">₱10,
-000</span></div><div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Optional Tech Assist</span><span class="font-semibold text-[var(--text-color)]">₱1,
-000</span></div></div><div class="my-8 border-t border-dashed border-[var(--card-border)]"></div><div class="text-center"><p class="text-[var(--gray-text)] text-xl">Your Yearly Savings</p><p class="text-6xl font-extrabold hyper-text mt-2">₱215,
-000+</p></div><div class="mt-10"><h4 class="font-bold text-2xl mb-4 text-center">Benefits:</h4><ul class="space-y-3 text-[var(--text-color)] text-lg"><li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Online 24/7</li><li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Multilingual</li><li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Reads images/voice</li><li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>No training needed</li></ul></div></div></div></div></section><section id="pricing" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8"><div class="max-w-3xl mx-auto text-center animated-element animate-fade-in"><p class="font-semibold text-[var(--accent-green)] text-sm uppercase tracking-widest">Limited Offer</p><h2 class="text-5xl md:text-7xl tracking-tighter mt-4 text-[var(--heading-color)]">Get Your AI Agent Today</h2><p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed">This price is for the first 10 clients only. Don't miss out.</p>
-
-<div class="my-16 pricing-box"><div class="pricing-box-inner p-8 md:p-12"><div class="flex justify-center items-baseline"><span class="text-4xl font-bold text-[var(--gray-text)] mr-2">₱</span><p class="text-8xl md:text-9xl font-black hyper-text">10,
-000</p></div><p class="text-3xl font-bold text-[var(--text-color)] mt-4 tracking-tight">One-Time Payment</p><p id="slots-container" class="mt-6 text-lg font-medium bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 rounded-full py-2 px-6 inline-block"><i data-lucide="zap" class="inline w-5 h-5 -mt-1"></i>Only <strong id="slots-left-count">9</strong><span id="slots-text">slots</span>remaining ! </p></div></div><div class="card -mt-8"><h3 class="font-bold text-3xl">Ready to Start?</h3><p class="text-[var(--gray-text)] mt-4 text-xl">Click the chat bubble to talk to ORIN AI,
-or visit our <a href="https://www.facebook.com/orinworks/" target="_blank" rel="noopener noreferrer" class="font-bold text-[var(--accent-green)] hover:underline">Facebook Page !</a>🚀</p><p class="mt-4 text-[var(--gray-text)] text-xl">Call for a discovery session: <a href="tel:+639310134892" class="font-bold text-[var(--text-color)] hover:text-[var(--accent-green)] transition-colors">+639310134892</a></p></div></div></section><section id="team" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8"><div class="max-w-7xl mx-auto"><div class="text-center mb-20 max-w-3xl mx-auto"><h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">The Minds Behind <span class="hyper-text">ORIN AI</span></h2><p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is proudly developed by <strong class="text-[var(--accent-green)] font-semibold">Organic AI Systems & Innovation Solutions (OASIS)</strong>.</p></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"><a href="https://www.facebook.com/omniscious" target="_blank" rel="noopener noreferrer" class="block"><div class="card text-center animated-element animate-fade-in p-8 h-full" style="transition-delay: 200ms;"><div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden"><img src="https://i.imgur.com/k0D06Ff.png" alt="Marvin S. Villanueva" class="w-full h-full object-cover object-left" loading="lazy"></div><h4 class="text-xl font-bold text-white">Marvin S. Villanueva</h4><p class="text-[var(--gray-text)] text-sm">CEO,
-CTO,
-CFO & Creative Director</p><span data-email="bWFydmluQG9yaW4ud29yaw==" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></span></div></a><div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 300ms;"><div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden"><img src="https://i.imgur.com/ce1YMPv.png" alt="John Romeo Albano" class="w-full h-full object-cover object-top" loading="lazy"></div><h4 class="text-xl font-bold text-white">John Romeo Albano</h4><p class="text-[var(--gray-text)] text-sm">Business Officer</p><a data-email="bWVvd0BvcmluLndvcms=" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a></div><div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 400ms;"><div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden"><img src="https://i.imgur.com/nF12g3n.png" alt="Gene David Lampa" class="w-full h-full object-cover object-top" loading="lazy"></div><h4 class="text-xl font-bold text-white">Gene David Lampa</h4><p class="text-[var(--gray-text)] text-sm">Business Officer & Beta Tester</p><a data-email="Z2VuZUBvcmluLndvcms=" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a></div><div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 500ms;"><div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden"><img src="https://preview.redd.it/taro-sakamoto-icon-cleaned-edit-and-remastered-by-me-two-v0-kgpamdq4m0rb1.png?width=640&crop=smart&auto=webp&s=405967562d8822280c7ed17334574e3e238720dc" alt="Roe Romeo Albano" class="w-full h-full object-cover" loading="lazy"></div><h4 class="text-xl font-bold text-white">Roe Romeo Albano</h4><p class="text-[var(--gray-text)] text-sm">Investor</p><a data-email="cm9lQG9yaW4ud29yaw==" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a></div></div></div></section></main><footer class="py-12 px-4 sm:px-6 lg:px-8"><div class="max-w-7xl mx-auto text-center text-[var(--gray-text)]/80"><p>&copy;
-
-2025 <span class="font-semibold text-[var(--text-color)]">Organic AI Systems & Innovation Solutions (OASIS)</span>. All rights reserved.</p><p class="mt-2 text-base">A creation by Marvin S. Villanueva and the OASIS Team.</p></div></footer><footer class="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-2xl bg-[var(--bg-color)]/80 border-t border-[var(--card-border)]"><a href="https://www.facebook.com/orinworks" target="_blank" rel="noopener noreferrer" class="block news-ticker-flash text-center p-1 sm:p-2 font-black text-xs sm:text-base uppercase tracking-wider bg-[var(--accent-green)] text-[#0B1120]">MVP OFFER: ₱10,
-000 ! <span id="banner-slots-count">9</span>SLOTS LEFT - CLICK TO CLAIM ! </a><div class="py-2 sm:py-4 px-4 sm:px-6 lg:px-8"><nav class="flex justify-between items-center max-w-7xl mx-auto"><a id="orin-logo-trigger" href="https://www.facebook.com/orinworks" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-xl sm:text-2xl tracking-tight text-[var(--heading-color)] font-extrabold"><img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Logo" class="h-6 sm:h-8 w-auto"><span class="hidden sm:inline">ORIN AI</span></a><div class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium"><a href="#features" class="hover:text-[var(--accent-green)] transition-colors">Features</a><a href="#statistics" class="hover:text-[var(--accent-green)] transition-colors">Stats</a><a href="#pricing" class="hover:text-[var(--accent-green)] transition-colors">Pricing</a></div><div class="flex items-center gap-4"><div id="theme-toggle" class="cursor-pointer p-2 sm:p-3 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] hidden sm:block"><i data-lucide="sun" class="sun-icon"></i><i data-lucide="moon" class="moon-icon"></i></div><a href="#pricing" class="btn-cta-sm">Get ORIN</a></div></nav></div></footer></div>< !-- Easter Egg Game Container --><div id="game-container" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-[100] flex items-center justify-center"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white"><canvas id="game-canvas" width="448" height="496"></canvas><p class="mt-4 font-semibold">Use Arrow Keys or Tap to Move !</p><button id="close-game" class="absolute -top-4 -right-4 text-white bg-red-600 hover:bg-red-700 transition-colors rounded-full w-10 h-10 font-bold text-lg border-2 border-white">X</button></div></div>< !-- Easter Egg Toast Message --><div id="easter-egg-toast" class="fixed bottom-24 left-1/2 bg-[var(--card-bg)] text-[var(--text-color)] py-2 px-5 rounded-lg shadow-lg z-[101] border border-[var(--card-border)]"></div><script>document.addEventListener('DOMContentLoaded', ()=> {
-
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://connect.facebook.net https://i.imgur.com https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net https://connect.facebook.net 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.facebook.com https://connect.facebook.net; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="permissions-policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
+    <meta name="robots" content="noindex, noimageindex, noarchive, nofollow">
+    <title>ORIN AI - Your 24/7 AI Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0B1120;
+            --text-color: #E0E7FF;
+            --card-bg: #1A2035;
+            --card-border: #2A3352;
+            --gray-text: #A0AEC0;
+            --heading-color: #ffffff;
+            --accent-green: #38F8A8;
+            --accent-green-dark: #2DD4BF;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        html.light {
+            --bg-color: #F7FAFC;
+            --text-color: #2D3748;
+            --card-bg: #ffffff;
+            --card-border: #E2E8F0;
+            --gray-text: #718096;
+            --heading-color: #1A202C;
+            --accent-green: #2DD4BF;
+            --accent-green-dark: #2C5282;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-color); 
+            font-weight: 300; /* font-light */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            user-select: none; /* Harden: Disable text selection */
+        }
+        
+        #noise-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+        }
+
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1, h2, h3, h4, h5, h6 { 
+            font-weight: 900; /* font-black */
+            letter-spacing: -0.05em; /* tracking-tighter */
+        }
+
+        .hyper-text {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-green-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 5s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card {
+            @apply bg-[var(--card-bg)]/60 backdrop-blur-2xl border border-white/10 rounded-2xl p-10 relative overflow-hidden;
+            transition: transform 0.3s ease-out, backdrop-filter 0.3s ease-out, border-color 0.3s ease-out;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            backdrop-filter: blur(40px); /* Increased blur on hover */
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        html.light .card {
+            @apply border-black/10;
+        }
+        
+        /* Refactored Button Component Classes */
+        .btn {
+            @apply rounded-lg font-bold text-lg transition-all duration-300 ease-out;
+        }
+        .btn-cta {
+            @apply btn bg-[var(--accent-green)] text-[#0B1120] py-4 px-8 relative overflow-hidden;
+            box-shadow: 0 0 20px rgba(56, 248, 168, 0.3);
+        }
+        .btn-cta:hover {
+            @apply transform -translate-y-1 scale-105 brightness-110;
+            box-shadow: 0 0 35px rgba(56, 248, 168, 0.6);
+        }
+        .btn-cta-sm { @apply btn-cta text-sm py-2 px-5; }
+
+        .btn-secondary {
+            @apply btn bg-transparent text-[var(--text-color)] border-2 border-[var(--card-border)] py-4 px-8 relative overflow-hidden;
+            background-clip: padding-box;
+        }
+        .btn-secondary:hover {
+            @apply transform -translate-y-1 border-[var(--accent-green)] text-[#0B1120];
+            background-color: var(--accent-green);
+        }
+
+        /* Animations */
+        .animated-element {
+            opacity: 0; 
+            transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .animate-fade-in { transform: translateY(80px); }
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #hero-headline { overflow: hidden; }
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .word:nth-child(1) { transform: translateX(-100%); }
+        .word:nth-child(2) { transform: translateX(100%); }
+        .word:nth-child(3) { transform: translateX(-100%); }
+        .word.is-visible {
+            opacity: 1; transform: translateX(0);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-orin {
+            animation: float 6s ease-in-out infinite;
+        }
+ 
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Form Styles */
+        .generator-form input, .generator-form textarea {
+            @apply w-full p-4 rounded-lg border-2 transition-all duration-200 ease-in-out !p-4;
+            background-color: #ffffff;
+            color: #1A202C;
+            border-color: #E2E8F0;
+        }
+        .generator-form input::placeholder, .generator-form textarea::placeholder { color: #A0AEC0; }
+        html.dark .generator-form input, html.dark .generator-form textarea {
+             background-color: #1A2035;
+             color: #0B1120;
+             border-color: var(--card-border);
+             color: var(--text-color);
+        }
+        html.dark .generator-form input::placeholder, html.dark .generator-form textarea::placeholder { color: #718096; }
+
+        .generator-form input:focus, .generator-form textarea:focus {
+            outline: none;
+            border-color: transparent;
+            box-shadow: none;
+            background-image: linear-gradient(to right, var(--accent-green), var(--accent-green-dark));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        #chat-window { height: 400px; overflow-y: auto; scrollbar-width: thin; }
+        .message { @apply max-w-[80%] mb-3 py-3 px-5; }
+        .user-message { 
+            @apply bg-[var(--accent-green)] text-[#0B1120] self-end rounded-2xl rounded-br-md;
+        }
+        .orin-message { 
+            @apply bg-[var(--card-bg)] border border-[var(--card-border)] self-start rounded-2xl rounded-bl-md;
+        }
+        #chat-input { 
+            @apply w-full p-4 rounded-lg focus:ring-0 border overflow-y-hidden resize-none;
+            background-color: #ffffff;
+            color: #1A202C;
+            border-color: #E2E8F0;
+        }
+        #chat-input:focus { outline: none; border-color: var(--accent-green); box-shadow: none; }
+        html.dark #chat-input {
+            background-color: #E0E7FF;
+            color: #0B1120;
+            border-color: var(--card-border);
+        }
+        #chat-input::placeholder {
+            color: #A0AEC0;
+        }
+        html.dark #chat-input::placeholder {
+            color: #718096;
+        }
+        
+        /* Theme Toggle Icon Visibility */
+        html:not(.dark) .moon-icon { display: none; }
+        html.dark .sun-icon { display: none; }
+
+        /* Multilingual Ticker */
+        #ticker-text {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 500; /* medium */
+            color: var(--gray-text);
+        }
+        .typing-cursor {
+            font-weight: 300;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Marquee */
+        .marquee {
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-item {
+            @apply inline-flex items-center mx-6 text-2xl font-bold;
+        }
+        .marquee-item i {
+            @apply w-7 h-7 mr-3 text-[var(--accent-green)];
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Horizontal Scroll Section */
+        #features-sticky-container {
+            position: relative;
+            height: 400vh;
+        }
+        #features-scroller {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        #features-scroller .features-grid {
+            display: flex;
+            gap: 2.5rem; /* gap-10 */
+        }
+
+        /* Pricing Box Style */
+        .pricing-box {
+            position: relative;
+            padding: 2px; /* Creates space for the border */
+            border-radius: 1.5rem; /* rounded-3xl */
+            background: linear-gradient(120deg, var(--accent-green), var(--accent-green-dark), #8B5CF6);
+            background-size: 200% 200%;
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        .pricing-box-inner {
+            background-color: #111827; /* A slightly darker bg for contrast */
+            border-radius: calc(1.5rem - 2px);
+        }
+        html.light .pricing-box-inner { background-color: #F9FAFB; }
+
+        @keyframes pulse-glow {
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 0 30px -5px rgba(56, 248, 168, 0.4); }
+            50% { background-position: 100% 50%; box-shadow: 0 0 50px 0px rgba(56, 248, 168, 0.7); }
+        }
+
+        .news-ticker-flash {
+            animation: urgent-pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes urgent-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px -5px rgba(56, 248, 168, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 35px 0px rgba(56, 248, 168, 0.8);
+            }
+        }
+
+        /* Easter Egg Styles */
+        #easter-egg-toast {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: translate(-50%, 20px);
+            pointer-events: none;
+        }
+        #easter-egg-toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        #game-container {
+            display: none; /* Initially hidden */
+        }
+        #game-container.active {
+            display: block; /* Show when active */
+        }
+        #game-canvas {
+            background: #000000;
+            border: 2px solid var(--accent-green);
+            border: 2px solid #2121DE;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="background-canvas"></canvas>
+    <div id="noise-overlay"></div>
+    <div class="page-wrapper">
+        <div id="fb-root"></div>
+        <script>
+          window.fbAsyncInit = function() { FB.init({ xfbml: true, version: 'v18.0' }); };
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="fb-customerchat" attribution="biz_inbox" page_id="100063623736284"></div>
+
+        <main class="pb-32">
+            <section class="py-20 md:py-32 px-4 sm:px-6 lg:px-8 hero-bg">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div id="hero-orin-trigger" class="floating-orin mb-12 cursor-pointer">
+                        <img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Agent Avatar" class="w-20 h-28 mx-auto" loading="lazy">
+                    </div>
+                    <h1 id="hero-headline" class="text-6xl md:text-8xl lg:text-9xl tracking-tighter font-black text-[var(--heading-color)] leading-none">
+                        </h1>
+                    <div id="multilingual-ticker" class="mt-8 flex justify-center items-center gap-3 animated-element animate-fade-in" style="transition-delay: 600ms;">
+                        <i data-lucide="message-circle" class="w-7 h-7 text-[var(--accent-green)]"></i>
+                        <div id="ticker-text-container" class="h-8">
+                            <span id="ticker-text"></span><span class="typing-cursor text-2xl text-[var(--gray-text)]">|</span>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-lg md:text-2xl text-[var(--gray-text)] max-w-3xl mx-auto leading-relaxed animated-element animate-fade-in" style="transition-delay: 700ms;">
+                        AI na “empleyado” mo, 24/7 on duty! 🤖 Benta at customer care, solved agad. 💯 Walang day off, walang reklamo, laging ready magbenta at sumagot sa customers mo. 🚀
+                    </p> 
+                    <div class="mt-16 flex justify-center gap-6 flex-wrap animated-element animate-fade-in" style="transition-delay: 900ms;">
+                        <a href="#comparison" class="btn-cta">See The Savings</a>
+                        <a href="#features" class="btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </section>
+           
+            <section id="features" class="py-20 sm:py-32">
+                <div class="text-center mb-20 max-w-4xl mx-auto px-4">
+                    <h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">Transform Your Business Operations</h2>
+                    <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is packed with features to supercharge customer interactions.</p>
+                </div>
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-6 grid-rows-2 gap-8">
+                        <div class="card animated-element animate-fade-in col-span-6 md:col-span-4" style="transition-delay: 200ms;">
+                            <i data-lucide="messages-square" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Natural Conversations</h4>
+                            <p class="text-[var(--gray-text)] text-lg">Speaks 100+ languages & styles: Taglish, Bisaya, English, and more.</p>
+                        </div>
+                        <div class="card animated-element animate-fade-in col-span-6 md:col-span-2" style="transition-delay: 300ms;">
+                            <i data-lucide="image" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Reads Photos</h4>
+                            <p class="text-[var(--gray-text)] text-lg">Understands images like IDs & receipts.</p>
+                        </div>
+                        <div class="card animated-element animate-fade-in col-span-6 md:col-span-2" style="transition-delay: 400ms;">
+                            <i data-lucide="mic" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Understands Voice</h4>
+                            <p class="text-[var(--gray-text)] text-lg">Responds to customer audio messages.</p>
+                        </div>
+                        <div class="card animated-element animate-fade-in col-span-6 md:col-span-4" style="transition-delay: 500ms;">
+                            <i data-lucide="brain-circuit" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Contextual Memory</h4>
+                            <p class="text-[var(--gray-text)] text-lg">Remembers past chats to provide smarter, more relevant responses.</p>
+                        </div>
+                         <div class="card animated-element animate-fade-in col-span-3 md:col-span-3" style="transition-delay: 600ms;">
+                            <i data-lucide="clock" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Always On, 24/7</h4>
+                            <p class="text-[var(--gray-text)] text-lg">No sick days, no complaints.</p>
+                        </div>
+                        <div class="card animated-element animate-fade-in col-span-3 md:col-span-3" style="transition-delay: 700ms;">
+                            <i data-lucide="rocket" class="w-12 h-12 mb-6 text-[var(--accent-green)]"></i>
+                            <h4 class="text-2xl font-bold mb-3">Quick Setup</h4>
+                            <p class="text-[var(--gray-text)] text-lg">Ready to go in just 3 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="statistics" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                     <div class="text-center mb-20 max-w-3xl mx-auto">
+                        <h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">The Numbers Don't Lie.</h2>
+                        <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">See the proven impact of AI on business growth and efficiency.</p>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                        <div class="card animated-element animate-fade-in" style="transition-delay: 200ms;">
+                            <h3 class="text-2xl font-bold mb-6 text-center">AI Market is Exploding</h3>
+                            <canvas id="marketGrowthChart"></canvas>
+                            <p class="text-center mt-4 text-[var(--gray-text)]">The AI customer service market is set to nearly 4x by 2030.</p>
+                        </div>
+                        <div class="card animated-element animate-fade-in" style="transition-delay: 300ms;">
+                            <h3 class="text-2xl font-bold mb-6 text-center">The ₱10,000 ROI Revolution</h3>
+                            <canvas id="roiChart"></canvas>
+                             <p class="text-center mt-4 text-[var(--gray-text)]">Unbelievable returns on a one-time investment.</p>
+                        </div>
+                        <div class="lg:col-span-2 grid md:grid-cols-3 gap-8">
+                            <div class="card animated-element animate-fade-in" style="transition-delay: 400ms; padding: 1.5rem 2rem;">
+                                <p class="hyper-text text-8xl font-black mb-2">50%</p>
+                                <h4 class="text-lg font-bold">Productivity Increase</h4>
+                                <p class="text-sm text-[var(--gray-text)]">Through AI augmentation.</p>
+                            </div>
+                            <div class="card animated-element animate-fade-in" style="transition-delay: 500ms; padding: 1.5rem 2rem;">
+                                <p class="hyper-text text-8xl font-black mb-2">30%</p>
+                                <h4 class="text-lg font-bold">Cost Reduction</h4>
+                                <p class="text-sm text-[var(--gray-text)]">In customer service operations.</p>
+                            </div>
+                            <div class="card animated-element animate-fade-in" style="transition-delay: 600ms; padding: 1.5rem 2rem;">
+                                <p class="hyper-text text-8xl font-black mb-2">75%</p>
+                                <h4 class="text-lg font-bold">First Contact Resolution</h4>
+                                <p class="text-sm text-[var(--gray-text)]">No more follow-ups needed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparison" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                     <div class="text-center mb-20 max-w-3xl mx-auto">
+                        <h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">A Smarter Investment. <span class="hyper-text">A Clearer Choice.</span></h2>
+                        <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">The data speaks for itself.</p>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                        <div class="card border-[var(--card-border)] animated-element animate-fade-in">
+                            <h3 class="text-3xl font-bold text-center mb-8">Typical Employee</h3>
+                            <div class="space-y-4 text-[var(--gray-text)] text-lg">
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Salary (₱15k/mo)</span><span class="font-semibold text-[var(--text-color)]">₱180,000</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>13th Month Pay</span><span class="font-semibold text-[var(--text-color)]">₱15,000</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Benefits</span><span class="font-semibold text-[var(--text-color)]">₱18,972</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Other Costs</span><span class="font-semibold text-[var(--text-color)]">~₱12,885</span></div>
+                            </div>
+                            <div class="my-8 border-t border-dashed border-[var(--card-border)]"></div>
+                            <div class="text-center">
+                                <p class="text-[var(--gray-text)] text-xl">Total Yearly Cost</p>
+                                <p class="text-5xl font-extrabold text-red-400 mt-2">₱226,857</p>
+                            </div>
+                            <div class="mt-10">
+                                <h4 class="font-bold text-2xl mb-4 text-center">Common Issues:</h4>
+                                <ul class="space-y-3 text-[var(--gray-text)] text-lg">
+                                    <li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Absent at late</li>
+                                    <li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Nawawalan ng gana</li>
+                                    <li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Kailangan ng training</li>
+                                    <li class="flex items-center"><i data-lucide="thumbs-down" class="w-6 h-6 mr-3 text-red-400 flex-shrink-0"></i>Minsan sablay</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card border-[var(--accent-green)] animated-element animate-fade-in" style="transition-delay: 150ms;">
+                            <div class="absolute top-0 right-6 -mt-5 py-2 px-5 bg-[var(--accent-green)] text-[#0B1120] font-bold text-base rounded-full shadow-lg">Best Value</div>
+                            <h3 class="text-3xl font-bold text-center mb-8">ORIN AI Agent</h3>
+                            <div class="space-y-4 text-[var(--gray-text)] text-lg">
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>One-Time Payment</span><span class="font-semibold text-[var(--text-color)]">₱10,000</span></div>
+                                <div class="flex justify-between items-center p-4 bg-[var(--bg-color)] rounded-lg"><span>Optional Tech Assist</span><span class="font-semibold text-[var(--text-color)]">₱1,000</span></div>
+                            </div>
+                            <div class="my-8 border-t border-dashed border-[var(--card-border)]"></div>
+                            <div class="text-center">
+                                <p class="text-[var(--gray-text)] text-xl">Your Yearly Savings</p>
+                                <p class="text-6xl font-extrabold hyper-text mt-2">₱215,000+</p>
+                            </div>
+                            <div class="mt-10">
+                                <h4 class="font-bold text-2xl mb-4 text-center">Benefits:</h4>
+                                <ul class="space-y-3 text-[var(--text-color)] text-lg">
+                                    <li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Online 24/7</li>
+                                    <li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Multilingual</li>
+                                    <li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>Reads images/voice</li>
+                                    <li class="flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-[var(--accent-green)] flex-shrink-0"></i>No training needed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pricing" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center animated-element animate-fade-in">
+                    <p class="font-semibold text-[var(--accent-green)] text-sm uppercase tracking-widest">Limited Offer</p>
+                    <h2 class="text-5xl md:text-7xl tracking-tighter mt-4 text-[var(--heading-color)]">Get Your AI Agent Today</h2>
+                    <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed">This price is for the first 10 clients only. Don't miss out.</p>
+                    
+                    <div class="my-16 pricing-box">
+                        <div class="pricing-box-inner p-8 md:p-12">
+                            <div class="flex justify-center items-baseline">
+                                <span class="text-4xl font-bold text-[var(--gray-text)] mr-2">₱</span>
+                                <p class="text-8xl md:text-9xl font-black hyper-text">10,000</p>
+                            </div>
+                            <p class="text-3xl font-bold text-[var(--text-color)] mt-4 tracking-tight">One-Time Payment</p>
+                            <p id="slots-container" class="mt-6 text-lg font-medium bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 rounded-full py-2 px-6 inline-block">
+                                <i data-lucide="zap" class="inline w-5 h-5 -mt-1"></i> Only <strong id="slots-left-count">9</strong> <span id="slots-text">slots</span> remaining!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card -mt-8">
+                        <h3 class="font-bold text-3xl">Ready to Start?</h3>
+                        <p class="text-[var(--gray-text)] mt-4 text-xl">Click the chat bubble to talk to ORIN AI, or visit our <a href="https://www.facebook.com/orinworks/" target="_blank" rel="noopener noreferrer" class="font-bold text-[var(--accent-green)] hover:underline">Facebook Page!</a> 🚀</p>
+                        <p class="mt-4 text-[var(--gray-text)] text-xl">Call for a discovery session: <a href="tel:+639310134892" class="font-bold text-[var(--text-color)] hover:text-[var(--accent-green)] transition-colors">+639310134892</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="team" class="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-20 max-w-3xl mx-auto">
+                        <h2 class="text-5xl md:text-7xl tracking-tighter text-[var(--heading-color)] animated-element animate-fade-in">The Minds Behind <span class="hyper-text">ORIN AI</span></h2>
+                        <p class="mt-6 text-xl text-[var(--gray-text)] leading-relaxed animated-element animate-fade-in" style="transition-delay: 150ms;">ORIN AI is proudly developed by <strong class="text-[var(--accent-green)] font-semibold">Organic AI Systems & Innovation Solutions (OASIS)</strong>.</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                        <a href="https://www.facebook.com/omniscious" target="_blank" rel="noopener noreferrer" class="block">
+                            <div class="card text-center animated-element animate-fade-in p-8 h-full" style="transition-delay: 200ms;">
+                                <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
+                                    <img src="https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-6/561151391_10229562957473421_6313752299158348140_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEeTMF49yAKPnKWySmvPIBRRXgNRgZHPTRFeA1GBkc9NBDbnuVaRvDqrI6zHUSMHfw&_nc_ohc=LiuqK1bgYmQQ7kNvwGjBuXj&_nc_oc=Adka9rrNp9WHuL1ohjSqFMqHGofJVFUfp44C2z-fE2BbjPdn1IXLmtUI8BY5CMygCco&_nc_zt=23&_nc_ht=scontent.fpag2-1.fna&_nc_gid=BwqPHZuirEMyrNPImi4foQ&oh=00_Afha2Q-K2TFzM1wRYOYfHlFxxg_7KZO92KD_oXnYJrP0RA&oe=691DA99D" alt="Marvin S. Villanueva" class="w-full h-full object-cover object-left" loading="lazy">
+                                </div>
+                                <h4 class="text-xl font-bold text-white">Marvin S. Villanueva</h4>
+                                <p class="text-[var(--gray-text)] text-sm">CEO, CTO, CFO & Creative Director</p>
+                                <span data-email="bWFydmluQG9yaW4ud29yaw==" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></span>
+                            </div>
+                        </a>
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 300ms;">
+                            <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
+                                <img src="https://i.imgur.com/ce1YMPv.png" alt="John Romeo Albano" class="w-full h-full object-cover object-top" loading="lazy">
+                            </div>
+                            <h4 class="text-xl font-bold text-white">John Romeo Albano</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Business Officer</p>
+                            <a data-email="bWVvd0BvcmluLndvcms=" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a>
+                        </div>
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 400ms;">
+                            <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
+                                <img src="https://scontent.fpag2-1.fna.fbcdn.net/v/t39.30808-1/470201414_9765795023447642_6807859288780336132_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeFS60ItFQRlVTfnSCML1pnpC1FfcHtewAALUV9we17AAIne5hINnpraBBnKbPYGbOE&_nc_ohc=aOwAWCuEkbwQ7kNvwHhgrqB&_nc_oc=Adkc2fJn84td4Na0B7R7-fruMUnzbXugL9aT_lZ2Gkw06Tdze3U55Ia-pgyIIYBZF3c&_nc_zt=24&_nc_ht=scontent.fpag2-1.fna&_nc_gid=Ty2CAnG0rqpIzaaxItHrTQ&oh=00_AfjB4IernszkjsLvCut8_ENYlpaXnF6_cE7-s4WXrWrcFA&oe=691DAD68" alt="Gene David Lampa" class="w-full h-full object-cover object-top" loading="lazy">
+                            </div>
+                            <h4 class="text-xl font-bold text-white">Gene David Lampa</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Business Officer & Beta Tester</p>
+                            <a data-email="Z2VuZUBvcmluLndvcms=" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a>
+                        </div>
+                        <div class="card text-center animated-element animate-fade-in p-8" style="transition-delay: 500ms;">
+                            <div class="w-24 h-24 mx-auto rounded-full border-2 border-[var(--card-border)] mb-4 overflow-hidden">
+                                <img src="https://preview.redd.it/taro-sakamoto-icon-cleaned-edit-and-remastered-by-me-two-v0-kgpamdq4m0rb1.png?width=640&crop=smart&auto=webp&s=405967562d8822280c7ed17334574e3e238720dc" alt="Roe Romeo Albano" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                            <h4 class="text-xl font-bold text-white">Roe Romeo Albano</h4>
+                            <p class="text-[var(--gray-text)] text-sm">Investor</p>
+                            <a data-email="cm9lQG9yaW4ud29yaw==" class="email-link block mt-2 text-[var(--accent-green)]/80 hover:text-[var(--accent-green)] transition-colors"></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center text-[var(--gray-text)]/80">
+                <p>&copy; 2025 <span class="font-semibold text-[var(--text-color)]">Organic AI Systems & Innovation Solutions (OASIS)</span>. All rights reserved.</p>
+                <p class="mt-2 text-base">A creation by Marvin S. Villanueva and the OASIS Team.</p>
+            </div>
+        </footer>
+
+        <footer class="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-2xl bg-[var(--bg-color)]/80 border-t border-[var(--card-border)]">
+            <a href="https://www.facebook.com/orinworks" target="_blank" rel="noopener noreferrer" class="block news-ticker-flash text-center p-1 sm:p-2 font-black text-xs sm:text-base uppercase tracking-wider bg-[var(--accent-green)] text-[#0B1120]">
+                MVP OFFER: ₱10,000! <span id="banner-slots-count">9</span> SLOTS LEFT - CLICK TO CLAIM!
+            </a>
+            <div class="py-2 sm:py-4 px-4 sm:px-6 lg:px-8">
+                <nav class="flex justify-between items-center max-w-7xl mx-auto">
+                    <a id="orin-logo-trigger" href="https://www.facebook.com/orinworks" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-xl sm:text-2xl tracking-tight text-[var(--heading-color)] font-extrabold">
+                        <img src="https://i.imgur.com/7JAu9YG.png" alt="ORIN AI Logo" class="h-6 sm:h-8 w-auto">
+                        <span class="hidden sm:inline">ORIN AI</span>
+                    </a>
+                    <div class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base font-medium">
+                        <a href="#features" class="hover:text-[var(--accent-green)] transition-colors">Features</a>
+                        <a href="#statistics" class="hover:text-[var(--accent-green)] transition-colors">Stats</a>
+                        <a href="#pricing" class="hover:text-[var(--accent-green)] transition-colors">Pricing</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                         <div id="theme-toggle" class="cursor-pointer p-2 sm:p-3 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] hidden sm:block">
+                             <i data-lucide="sun" class="sun-icon"></i>
+                             <i data-lucide="moon" class="moon-icon"></i>
+                         </div>
+                        <a href="#pricing" class="btn-cta-sm">Get ORIN</a>
+                    </div>
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Easter Egg Game Container -->
+    <div id="game-container" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-[100] flex items-center justify-center">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white">
+            <canvas id="game-canvas" width="448" height="496"></canvas>
+            <p class="mt-4 font-semibold">Use Arrow Keys or Tap to Move!</p>
+            <button id="close-game" class="absolute -top-4 -right-4 text-white bg-red-600 hover:bg-red-700 transition-colors rounded-full w-10 h-10 font-bold text-lg border-2 border-white">X</button>
+        </div>
+    </div>
+
+    <!-- Easter Egg Toast Message -->
+    <div id="easter-egg-toast" class="fixed bottom-24 left-1/2 bg-[var(--card-bg)] text-[var(--text-color)] py-2 px-5 rounded-lg shadow-lg z-[101] border border-[var(--card-border)]"></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
         // --- INITIALIZE ALL MODULES ---
         ThemeManager();
         ScrollAnimations();
@@ -513,7 +641,7 @@ CFO & Creative Director</p><span data-email="bWFydmluQG9yaW4ud29yaw==" class="em
         SiteHardening();
         DynamicSlotsManager();
         EasterEggManager();
-
+        
         // --- GLOBAL INITIALIZATIONS ---
         MultilingualTicker();
         lucide.createIcons(); // Initial call
@@ -521,1877 +649,661 @@ CFO & Creative Director</p><span data-email="bWFydmluQG9yaW4ud29yaw==" class="em
         animateHeadline();
 
         function animateHeadline() {
-            const headline=document.getElementById('hero-headline');
-            if ( !headline) return;
-            const text="Meet ORIN AI!";
-
-            headline.innerHTML=text.split(' ').map(word=> `<span class="word" >$ {
-                    word
-                }
-
-                </span>`).join(' ');
-
+            const headline = document.getElementById('hero-headline');
+            if (!headline) return;
+            const text = "Meet ORIN AI!";
+            headline.innerHTML = text.split(' ').map(word => `<span class="word">${word}</span>`).join(' ');
+            
             // Use a short timeout to ensure elements are in the DOM before animating
-            setTimeout(()=> {
-                    headline.querySelectorAll('.word').forEach(span=> {
-                            span.classList.add('is-visible');
-                        });
+            setTimeout(() => {
+                headline.querySelectorAll('.word').forEach(span => {
+                    span.classList.add('is-visible');
                 });
+            });
         }
     });
 
-// --- MULTILINGUAL TICKER MODULE ---
-function MultilingualTicker() {
-    const textElement=document.getElementById('ticker-text');
-    if ( !textElement) return;
+    // --- MULTILINGUAL TICKER MODULE ---
+    function MultilingualTicker() {
+        const textElement = document.getElementById('ticker-text');
+        if (!textElement) return;
 
-    let greetings=[ "Magkano po? 😭👉👈",
-    "hm po sis 😩✨",
-    "How much is this? 😌💵🍔",
-    "¿cuánto cuesta? 😭💸🌶️",
-    "いくらですか？ 😭🫶🍣",
-    "이거 얼마예요? 😭👉🍚",
-    "这个多少钱？ 😭✨🐉",
-    "Combien ça coûte ? 😌🪙🥖",
-    "Quanto costa? 😩💸🍝",
-    "Wie viel kostet das? 😭💶🥨",
-    "Cái này bao nhiêu? 😭👉🍜",
-    "Πόσο κάνει; 😭💸🏺",
-    "Bu ne kadar? 😭👉☕",
-    "อันนี้เท่าไหร่ 😭😩🥥",
-    "Tagpila?? 😌✨",
-    "HM HM HM 😭💸",
-    "hm poh pOw 😭👉👈",
-    "Is this available? 😌✔️🍔",
-    "¿Está disponible? 😭✔️🌶️",
-    "これはありますか？ 😌🔎🍣",
-    "있어요? 😭✔️🍚",
-    "有吗？ 😭🔍🐉",
-    "C’est disponible ? 😭📦🥖",
-    "È disponibile? 😌📦🍝",
-    "Ist es verfügbar? 😩📦🥨",
-    "Còn không? 😭🔍🍜",
-    "Υπάρχει; 😭📦🏺",
-    "Bu mevcut mu? 😌📦☕",
-    "มีไหม 😭📦🥥",
-    "May ara pa? 😩✨",
-    "naa pa? 😌🙏",
-    "Adda pay? 😌✨",
-    "Meron po?? 😭📦",
-    "HM sis 😭✨",
-    "Could you confirm availability? 😌📦",
-    "Is this still on-hand? 😩✔️🍔",
-    "Puede darme un descuento? 😭💸🌶️",
-    "まけてください 😭🙏🍣",
-    "할인돼요? 😭👉🍚",
-    "可以便宜一点吗？ 😭💸🐉",
-    "Pouvez-vous réduire le prix ? 😌💸🥖",
-    "Può faire uno sconto? 😭💸🍝",
-    "Können Sie Rabatt geben? 😭✨🥨",
-    "Có giảm giá không? 😌✨🍜",
-    "Μπορείτε να κάνετε έκπτωση; 😭💸🏺",
-    "İndirim olur mu? 😌💸☕",
-    "ลดได้ไหม 😭✨🥥",
-    "Pwede tawad sis 😭✨",
-    "hm last price 😩💸",
-    "Professional inquiry: kindly send pricing.",
-    "Hello good day po! 😌✨",
-    "こんにちは！お元気ですか？ 😭🫶🍣",
-    "안녕하세요！ 😌✨🍚",
-    "你好！ 😌✨🐉",
-    "Bonjour! 😌✨🥖",
-    "Ciao! 😌✨🍝",
-    "Hallo! 😌✨🥨",
-    "Xin chào! 😌✨🍜",
-    "Yassou! 😌✨🏺",
-    "Merhaba! 😌✨☕",
-    "Sawadee ka! 😌✨🥥",
-    "Kumusta?? 😌✨",
-    "Magandang araw! 😌☀️",
-    "pabili po 😝✨",
-    "pls sis 😭🙏",
-    "Tag pila ni boss 😭🪙",
-    "hm po?? 😭👉👈",
-    "hm sis 😩✨",
-    "How much per unit? 😌📦",
-    "Boss pila ni 😭✨",
-    "I am interested. Price pls.",
-    "Seller pa-reply 😭✨",
-    "hm na beh 😭👉👈",
-    "Sorry po, magkano? 😭✨",
-    "May warranty po? 😌✨",
-    "Serious buyer here."
-    ];
-    let greetingIndex=0;
-    let charIndex=0;
-    let isDeleting=false;
+        let greetings = [
+            "Magkano po? 😭👉👈", "hm po sis 😩✨", "How much is this? 😌💵🍔", "¿cuánto cuesta? 😭💸🌶️", "いくらですか？ 😭🫶🍣", "이거 얼마예요? 😭👉🍚",
+            "这个多少钱？ 😭✨🐉", "Combien ça coûte ? 😌🪙🥖", "Quanto costa? 😩💸🍝", "Wie viel kostet das? 😭💶🥨", "Cái này bao nhiêu? 😭👉🍜", "Πόσο κάνει; 😭💸🏺",
+            "Bu ne kadar? 😭👉☕", "อันนี้เท่าไหร่ 😭😩🥥", "Tagpila?? 😌✨", "HM HM HM 😭💸", "hm poh pOw 😭👉👈", "Is this available? 😌✔️🍔",
+            "¿Está disponible? 😭✔️🌶️", "これはありますか？ 😌🔎🍣", "있어요? 😭✔️🍚", "有吗？ 😭🔍🐉", "C’est disponible ? 😭📦🥖", "È disponibile? 😌📦🍝",
+            "Ist es verfügbar? 😩📦🥨", "Còn không? 😭🔍🍜", "Υπάρχει; 😭📦🏺", "Bu mevcut mu? 😌📦☕", "มีไหม 😭📦🥥", "May ara pa? 😩✨",
+            "naa pa? 😌🙏", "Adda pay? 😌✨", "Meron po?? 😭📦", "HM sis 😭✨", "Could you confirm availability? 😌📦", "Is this still on-hand? 😩✔️🍔",
+            "Puede darme un descuento? 😭💸🌶️", "まけてください 😭🙏🍣", "할인돼요? 😭👉🍚", "可以便宜一点吗？ 😭💸🐉", "Pouvez-vous réduire le prix ? 😌💸🥖", "Può faire uno sconto? 😭💸🍝",
+            "Können Sie Rabatt geben? 😭✨🥨", "Có giảm giá không? 😌✨🍜", "Μπορείτε να κάνετε έκπτωση; 😭💸🏺", "İndirim olur mu? 😌💸☕", "ลดได้ไหม 😭✨🥥", "Pwede tawad sis 😭✨",
+            "hm last price 😩💸", "Professional inquiry: kindly send pricing.", "Hello good day po! 😌✨", "こんにちは！お元気ですか？ 😭🫶🍣", "안녕하세요！ 😌✨🍚", "你好！ 😌✨🐉",
+            "Bonjour! 😌✨🥖", "Ciao! 😌✨🍝", "Hallo! 😌✨🥨", "Xin chào! 😌✨🍜", "Yassou! 😌✨🏺", "Merhaba! 😌✨☕", "Sawadee ka! 😌✨🥥", "Kumusta?? 😌✨",
+            "Magandang araw! 😌☀️", "pabili po 😝✨", "pls sis 😭🙏", "Tag pila ni boss 😭🪙", "hm po?? 😭👉👈", "hm sis 😩✨",
+            "How much per unit? 😌📦", "Boss pila ni 😭✨", "I am interested. Price pls.", "Seller pa-reply 😭✨", "hm na beh 😭👉👈", "Sorry po, magkano? 😭✨",
+            "May warranty po? 😌✨", "Serious buyer here."
+        ];
+        let greetingIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
 
-    function shuffleArray(array) {
-        for (let i=array.length - 1; i > 0; i--) {
-            const j=Math.floor(Math.random() * (i + 1));
-            [array[i],
-            array[j]]=[array[j],
-            array[i]];
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
         }
+        shuffleArray(greetings);
+
+        function type() {
+            const currentGreetingChars = Array.from(greetings[greetingIndex]);
+            const typeSpeed = isDeleting ? 50 : 120;
+
+            textElement.textContent = currentGreetingChars.slice(0, isDeleting ? charIndex-- : charIndex++).join('');
+
+            if (!isDeleting && charIndex > currentGreetingChars.length) {
+                isDeleting = true; setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false; greetingIndex = (greetingIndex + 1) % greetings.length; setTimeout(type, 500);
+            } else { setTimeout(type, typeSpeed + Math.random() * 50); }
+        }
+        type();
     }
 
-    shuffleArray(greetings);
+    // --- THEME MANAGER MODULE ---
+    function ThemeManager() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlEl = document.documentElement;
 
-    function type() {
-        const currentGreetingChars=Array.from(greetings[greetingIndex]);
-        const typeSpeed=isDeleting ? 50: 120;
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                htmlEl.classList.remove('dark');
+                htmlEl.classList.add('light');
+            } else {
+                htmlEl.classList.remove('light');
+                htmlEl.classList.add('dark');
+            }
+            localStorage.setItem('theme', theme);
 
-        textElement.textContent=currentGreetingChars.slice(0, isDeleting ? charIndex-- : charIndex++).join('');
-
-        if ( !isDeleting && charIndex > currentGreetingChars.length) {
-            isDeleting=true;
-            setTimeout(type, 2000);
+            // Dispatch a custom event that other modules can listen to
+            window.dispatchEvent(new CustomEvent('themeChanged'));
         }
 
-        else if (isDeleting && charIndex===0) {
-            isDeleting=false;
-            greetingIndex=(greetingIndex + 1) % greetings.length;
-            setTimeout(type, 500);
-        }
-
-        else {
-            setTimeout(type, typeSpeed + Math.random() * 50);
-        }
-    }
-
-    type();
-}
-
-// --- THEME MANAGER MODULE ---
-function ThemeManager() {
-    const themeToggle=document.getElementById('theme-toggle');
-    const htmlEl=document.documentElement;
-
-    function applyTheme(theme) {
-        if (theme==='light') {
-            htmlEl.classList.remove('dark');
-            htmlEl.classList.add('light');
-        }
-
-        else {
-            htmlEl.classList.remove('light');
-            htmlEl.classList.add('dark');
-        }
-
-        localStorage.setItem('theme', theme);
-
-        // Dispatch a custom event that other modules can listen to
-        window.dispatchEvent(new CustomEvent('themeChanged'));
-    }
-
-    themeToggle.addEventListener('click', ()=> {
-            const newTheme=htmlEl.classList.contains('dark') ? 'light' : 'dark';
+        themeToggle.addEventListener('click', () => {
+            const newTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
             applyTheme(newTheme);
         });
 
-    // Initial theme setup
-    const savedTheme=localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-}
-
-// --- HARDENING MODULE ---
-function SiteHardening() {
-    // Disable right-click context menu
-    document.addEventListener('contextmenu', event=> event.preventDefault());
-
-    // Anti-devtools trap - "Kupal ka ba, boss?" edition
-    const antiDevTools=()=> {
-        const before=new Date().getTime();
-        debugger;
-        const after=new Date().getTime();
-
-        if (after - before > 100) {
-            // Detects if DevTools is open and paused execution
-            document.body.innerHTML=`<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #0B1120; color: #E0E7FF; text-align: center; font-family: var(--font-sans);"><h1 style="font-size: 6vw; font-weight: 900;">Kupal ka ba,
-            boss?</h1></div>`;
-        }
+        // Initial theme setup
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
     }
 
-    ;
-    setInterval(antiDevTools, 1000);
+    // --- HARDENING MODULE ---
+    function SiteHardening() {
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // Disable common keyboard shortcuts for devtools
-    document.addEventListener('keydown', event=> {
-            if (event.key==='F12' || (event.ctrlKey && event.shiftKey && (event.key==='I' || event.key==='J' || event.key==='C')) || (event.metaKey && event.altKey && (event.key==='I' || event.key==='J' || event.key==='C'))) {
+        // Anti-devtools trap - "Kupal ka ba, boss?" edition
+        const antiDevTools = () => {
+            const before = new Date().getTime();
+            debugger;
+            const after = new Date().getTime();
+            if (after - before > 100) { // Detects if DevTools is open and paused execution
+                document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #0B1120; color: #E0E7FF; text-align: center; font-family: var(--font-sans);"><h1 style="font-size: 6vw; font-weight: 900;">Kupal ka ba, boss?</h1></div>`;
+            }
+        };
+        setInterval(antiDevTools, 1000);
+
+        // Disable common keyboard shortcuts for devtools
+        document.addEventListener('keydown', event => {
+            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || (event.metaKey && event.altKey && (event.key === 'I' || event.key === 'J' || event.key === 'C'))) {
                 event.preventDefault();
             }
         });
 
-    // Decode and display email addresses to protect from simple scrapers
-    document.querySelectorAll('.email-link').forEach(link=> {
-            const encodedEmail=link.getAttribute('data-email');
-
+        // Decode and display email addresses to protect from simple scrapers
+        document.querySelectorAll('.email-link').forEach(link => {
+            const encodedEmail = link.getAttribute('data-email');
             if (encodedEmail) {
-                const decodedEmail=atob(encodedEmail);
-                link.href='mailto:' + decodedEmail;
-                link.textContent=decodedEmail;
+                const decodedEmail = atob(encodedEmail);
+                link.href = 'mailto:' + decodedEmail;
+                link.textContent = decodedEmail;
             }
         });
-}
-
-// --- SCROLL ANIMATIONS MODULE ---
-function ScrollAnimations() {
-    const observer=new IntersectionObserver((entries)=> {
-            entries.forEach(entry=> {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-        }
-
-        , {
-        threshold: 0.1
-    });
-document.querySelectorAll('.animated-element').forEach(el=> observer.observe(el));
-}
-
-// --- DYNAMIC SLOTS MANAGER ---
-function DynamicSlotsManager() {
-    const slotsCountElement=document.getElementById('slots-left-count');
-    const slotsTextElement=document.getElementById('slots-text');
-    const bannerSlotsCountElement=document.getElementById('banner-slots-count');
-    if ( !slotsCountElement || !slotsTextElement || !bannerSlotsCountElement) return;
-
-    const visitCountKey='orinVisitCount';
-    let visitCount=parseInt(localStorage.getItem(visitCountKey) || '0', 10);
-    visitCount++;
-    localStorage.setItem(visitCountKey, visitCount);
-
-    // Calculate slots: The count will now decrease by one after every 7 visits.
-    let calculatedSlots=9 - Math.floor((visitCount - 1) / 7);
-
-    // Ensure the count never drops below 1
-    if (calculatedSlots < 1) {
-        calculatedSlots=1;
     }
 
-    // Update both the main counter and the banner counter
-    slotsCountElement.textContent=calculatedSlots;
-    bannerSlotsCountElement.textContent=calculatedSlots;
+    // --- SCROLL ANIMATIONS MODULE ---
+    function ScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.animated-element').forEach(el => observer.observe(el));
+    }
 
-    // Update grammar for "slot" vs "slots"
-    slotsTextElement.textContent=calculatedSlots===1 ? 'slot' : 'slots';
-}
+    // --- DYNAMIC SLOTS MANAGER ---
+    function DynamicSlotsManager() {
+        const slotsCountElement = document.getElementById('slots-left-count');
+        const slotsTextElement = document.getElementById('slots-text');
+        const bannerSlotsCountElement = document.getElementById('banner-slots-count');
+        if (!slotsCountElement || !slotsTextElement || !bannerSlotsCountElement) return;
 
-// --- EASTER EGG MANAGER ---
-function EasterEggManager() {
-    const triggers=[document.getElementById('orin-logo-trigger'),
-    document.getElementById('hero-orin-trigger')];
-    const toast=document.getElementById('easter-egg-toast');
-    const gameContainer=document.getElementById('game-container');
-    const closeButton=document.getElementById('close-game');
-    const canvas=document.getElementById('game-canvas');
-    if (triggers.some(t=> !t) || !toast || !gameContainer || !closeButton || !canvas) return;
+        const visitCountKey = 'orinVisitCount';
+        let visitCount = parseInt(localStorage.getItem(visitCountKey) || '0', 10);
+        visitCount++;
+        localStorage.setItem(visitCountKey, visitCount);
 
-    let clickCount=0;
-    let clickTimeout;
+        // Calculate slots: The count will now decrease by one after every 7 visits.
+        let calculatedSlots = 9 - Math.floor((visitCount - 1) / 7);
 
-    triggers.forEach(trigger=> {
-            trigger.addEventListener('click', (e)=> {
+        // Ensure the count never drops below 1
+        if (calculatedSlots < 1) {
+            calculatedSlots = 1;
+        }
 
-                    // For the bottom logo, we prevent navigation. For the top one, it's a div so no action needed.
-                    if (trigger.id==='orin-logo-trigger') {
-                        e.preventDefault();
-                    }
+        // Update both the main counter and the banner counter
+        slotsCountElement.textContent = calculatedSlots;
+        bannerSlotsCountElement.textContent = calculatedSlots;
 
-                    clickCount++;
+        // Update grammar for "slot" vs "slots"
+        slotsTextElement.textContent = calculatedSlots === 1 ? 'slot' : 'slots';
+    }
 
-                    clearTimeout(clickTimeout);
+    // --- EASTER EGG MANAGER ---
+    function EasterEggManager() {
+        const triggers = [document.getElementById('orin-logo-trigger'), document.getElementById('hero-orin-trigger')];
+        const toast = document.getElementById('easter-egg-toast');
+        const gameContainer = document.getElementById('game-container');
+        const closeButton = document.getElementById('close-game');
+        const canvas = document.getElementById('game-canvas');
+        if (triggers.some(t => !t) || !toast || !gameContainer || !closeButton || !canvas) return;
 
-                    clickTimeout=setTimeout(()=> {
-                            clickCount=0;
-                        }
+        let clickCount = 0;
+        let clickTimeout;
 
-                        , 2000); // Reset after 2s of inactivity
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                // For the bottom logo, we prevent navigation. For the top one, it's a div so no action needed.
+                if (trigger.id === 'orin-logo-trigger') {
+                    e.preventDefault();
+                }
+                clickCount++;
+                
+                clearTimeout(clickTimeout);
+                clickTimeout = setTimeout(() => { clickCount = 0; }, 2000); // Reset after 2s of inactivity
 
-                    if (clickCount===4) {
-                        toast.textContent='1 more tap to play with ORIN AI!';
-                        toast.classList.add('show');
-                        setTimeout(()=> toast.classList.remove('show'), 2000);
-                    }
+                if (clickCount === 4) {
+                    toast.textContent = '1 more tap to play with ORIN AI!';
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 2000);
+                }
 
-                    if (clickCount > 0 && clickCount < 4) {
-                        toast.textContent=`Keep tapping... $ {
-                            5 - clickCount
-                        }
+                if (clickCount > 0 && clickCount < 4) {
+                    toast.textContent = `Keep tapping... ${5 - clickCount} more to go!`;
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 1000);
+                }
 
-                        more to go !`;
-                        toast.classList.add('show');
-                        setTimeout(()=> toast.classList.remove('show'), 1000);
-                    }
-
-                    if (clickCount===5) {
-                        clickCount=0;
-                        gameContainer.classList.add('active');
-                        // The manager's only job is to activate the container and call the game module.
-                        // The game module itself will handle its own loading.
-                        PacManGame(canvas);
-                    }
-                });
+                if (clickCount === 5) {
+                    clickCount = 0;
+                    gameContainer.classList.add('active');
+                    // The manager's only job is to activate the container and call the game module.
+                    // The game module itself will handle its own loading.
+                    PacManGame(canvas);
+                }
+            });
         });
 
-    closeButton.addEventListener('click', ()=> {
+        closeButton.addEventListener('click', () => {
             gameContainer.classList.remove('active');
-            gameContainer.dataset.gameLoaded='false'; // Reset for next time
+            gameContainer.dataset.gameLoaded = 'false'; // Reset for next time
             // Game loop will be stopped via observer
         });
-}
+    }
 
-// --- PAC-MAN GAME MODULE ---
-function PacManGame(canvas) {
-    const ctx=canvas.getContext('2d');
-    const TILE_SIZE=16;
-    let map=[ [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    3,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    3,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    2,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    2,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0],
-    // Tunnel
-    [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0],
-    [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    3,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    3,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    1,
-    1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1],
-    [1,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    1],
-    [1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1]]; // 0: empty, 1: wall, 2: dot, 3: power pellet
-    let score=0;
-    let gameOver=false;
-    let animationFrameId;
-    let powerPelletActive=false;
-    let powerPelletTimer;
+    // --- PAC-MAN GAME MODULE ---
+    function PacManGame(canvas) {
+        const ctx = canvas.getContext('2d');
+        const TILE_SIZE = 16;
+        let map = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],
+            [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,1,1,1,1,1],
+            [0,0,0,0,0,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,0,0,0,0,0],
+            [0,0,0,0,0,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,0,0,0,0,0],
+            [0,0,0,0,0,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,0,0,0,0,0],
+            [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+            [0,0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0], // Tunnel
+            [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+            [0,0,0,0,0,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,0,0,0,0,0],
+            [0,0,0,0,0,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,0,0,0,0,0],
+            [0,0,0,0,0,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,0,0,0,0,0],
+            [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
+            [1,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,1],
+            [1,2,1,1,2,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,2,1,1,1],
+            [1,2,1,1,2,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,2,1,1,1],
+            [1,2,2,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ]; // 0: empty, 1: wall, 2: dot, 3: power pellet
+        let score = 0;
+        let gameOver = false;
+        let animationFrameId;
+        let powerPelletActive = false;
+        let powerPelletTimer;
 
-    // --- Asset Loading (Self-Contained) ---
-    const orinHeadAsset=new Image();
-    orinHeadAsset.src='https://i.imgur.com/7JAu9YG.png';
+        // --- Asset Loading (Self-Contained) ---
+        const orinHeadAsset = new Image();
+        orinHeadAsset.src = 'https://i.imgur.com/7JAu9YG.png';
 
-    // --- Audio Assets & State ---
-    const sounds= {
-        gameStart: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_beginning.wav'),
+        // --- Audio Assets & State ---
+        const sounds = {
+            gameStart: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_beginning.wav'),
             chomp: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_chomp.wav'),
             death: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_death.wav'),
             eatGhost: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_eatghost.wav'),
             siren: new Audio('https://www.classicgaming.cc/classics/pacman/sounds/pacman_intermission.wav')
-    }
+        };
+        Object.values(sounds).forEach(sound => { sound.preload = 'auto'; });
+        let gameState = 'ready'; // 'ready', 'playing', 'gameOver'
 
-    ;
+        class Pacman {
+            constructor(x, y) { this.x = x; this.y = y; this.dx = 0; this.dy = 0; this.nextDx = 0; this.nextDy = 0; }
+            draw() { ctx.drawImage(orinHeadAsset, this.x * TILE_SIZE, this.y * TILE_SIZE, TILE_SIZE, TILE_SIZE); }
+            update() {
+                const isAtGridCenter = (this.x % 1 === 0) && (this.y % 1 === 0);
 
-    Object.values(sounds).forEach(sound=> {
-            sound.preload='auto';
-        });
-    let gameState='ready'; // 'ready', 'playing', 'gameOver'
-
-    class Pacman {
-        constructor(x, y) {
-            this.x=x;
-            this.y=y;
-            this.dx=0;
-            this.dy=0;
-            this.nextDx=0;
-            this.nextDy=0;
-        }
-
-        draw() {
-            ctx.drawImage(orinHeadAsset, this.x * TILE_SIZE, this.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        }
-
-        update() {
-            const isAtGridCenter=(this.x % 1===0) && (this.y % 1===0);
-
-            if (isAtGridCenter) {
-                if (this.canMove(this.nextDx, this.nextDy)) {
-                    this.dx=this.nextDx;
-                    this.dy=this.nextDy;
+                if (isAtGridCenter) {
+                    if (this.canMove(this.nextDx, this.nextDy)) {
+                        this.dx = this.nextDx; this.dy = this.nextDy;
+                    } else if (!this.canMove(this.dx, this.dy)) {
+                        this.dx = 0; this.dy = 0; // Stop if facing a wall
+                    }
                 }
 
-                else if ( !this.canMove(this.dx, this.dy)) {
-                    this.dx=0;
-                    this.dy=0; // Stop if facing a wall
+                this.x += this.dx * 0.125;
+                this.y += this.dy * 0.125;
+
+                // Tunnel logic
+                if (this.x <= -1) this.x = map[0].length -1; else if (this.x >= map[0].length) this.x = 0;
+                
+                // Eat dots and pellets
+                const currentTileX = Math.round(this.x), currentTileY = Math.round(this.y);
+                if (map[currentTileY][currentTileX] === 2) {
+                    map[currentTileY][currentTileX] = 0; score += 10;
+                    sounds.chomp.currentTime = 0;
+                    sounds.chomp.play().catch(e => {});
+                }
+                if (map[currentTileY][currentTileX] === 3) {
+                    map[currentTileY][currentTileX] = 0; score += 50;
+                    this.activatePowerPellet();
                 }
             }
-
-            this.x+=this.dx * 0.125;
-            this.y+=this.dy * 0.125;
-
-            // Tunnel logic
-            if (this.x <=-1) this.x=map[0].length -1;
-            else if (this.x >=map[0].length) this.x=0;
-
-            // Eat dots and pellets
-            const currentTileX=Math.round(this.x),
-            currentTileY=Math.round(this.y);
-
-            if (map[currentTileY][currentTileX]===2) {
-                map[currentTileY][currentTileX]=0;
-                score+=10;
-                sounds.chomp.currentTime=0;
-
-                sounds.chomp.play().catch(e=> {});
+            canMove(dx, dy) {
+                if (dx === 0 && dy === 0) return true;
+                const nextX = Math.round(this.x + dx), nextY = Math.round(this.y + dy);
+                return map[nextY] && map[nextY][nextX] !== 1;
             }
-
-            if (map[currentTileY][currentTileX]===3) {
-                map[currentTileY][currentTileX]=0;
-                score+=50;
-                this.activatePowerPellet();
+            activatePowerPellet() {
+                powerPelletActive = true;
+                clearTimeout(powerPelletTimer);
+                sounds.siren.playbackRate = 1.5;
+                sounds.eatGhost.play().catch(e => {});
+                ghosts.forEach(g => g.frighten());
+                powerPelletTimer = setTimeout(() => {
+                    powerPelletActive = false;
+                    ghosts.forEach(g => g.unfrighten());
+                }, 8000); // 8 seconds of power
             }
         }
 
-        canMove(dx, dy) {
-            if (dx===0 && dy===0) return true;
-            const nextX=Math.round(this.x + dx),
-            nextY=Math.round(this.y + dy);
-            return map[nextY] && map[nextY][nextX] !==1;
+        class Ghost {
+            constructor(x, y, emoji) { this.x = x; this.y = y; this.emoji = emoji; this.isFrightened = false; this.originalEmoji = emoji; }
+            draw() {
+                ctx.font = `${TILE_SIZE}px sans-serif`;
+                const displayEmoji = this.isFrightened ? '😨' : this.emoji;
+                ctx.fillText(displayEmoji, this.x * TILE_SIZE, (this.y + 1) * TILE_SIZE - 4);
+            }
+            update(target) {
+                const dx = target.x - this.x, dy = target.y - this.y;
+                let moveX = 0, moveY = 0;
+                if (Math.abs(dx) > Math.abs(dy)) { moveX = Math.sign(dx); } else { moveY = Math.sign(dy); }
+                if (this.canMove(moveX, moveY)) { this.x += moveX * 0.05; } // Ghost speed
+                if (this.canMove(0, moveY)) { this.y += moveY * 0.05; }
+            }
+            canMove(dx, dy) { return map[Math.round(this.y + dy)] && map[Math.round(this.y + dy)][Math.round(this.x + dx)] !== 1; }
+            frighten() { this.isFrightened = true; }
+            unfrighten() { this.isFrightened = false; sounds.siren.playbackRate = 1; }
+            reset() { this.x = 13; this.y = 11; this.unfrighten(); }
         }
 
-        activatePowerPellet() {
-            powerPelletActive=true;
+        let pacman = new Pacman(1, 1);
+        let ghosts = [ new Ghost(13, 11, '😡'), new Ghost(14, 11, '😡'), new Ghost(13, 15, '😡'), new Ghost(14, 15, '😡') ];
+
+        const keydownHandler = e => {
+            if (gameState !== 'playing') return;
+            if (e.key === 'ArrowUp') { pacman.nextDx = 0; pacman.nextDy = -1; }
+            else if (e.key === 'ArrowDown') { pacman.nextDx = 0; pacman.nextDy = 1; }
+            else if (e.key === 'ArrowLeft') { pacman.nextDx = -1; pacman.nextDy = 0; }
+            else if (e.key === 'ArrowRight') { pacman.nextDx = 1; pacman.nextDy = 0; }
+        };
+
+        const tapHandler = e => {
+            const rect = canvas.getBoundingClientRect();
+            const tapX = e.clientX - rect.left;
+            const tapY = e.clientY - rect.top;
+
+            if (gameState === 'gameOver') {
+                cleanup();
+                startGame();
+                return;
+            }
+            if (gameState !== 'playing') return;
+
+            const pacmanPixelX = pacman.x * TILE_SIZE + TILE_SIZE / 2;
+            const pacmanPixelY = pacman.y * TILE_SIZE + TILE_SIZE / 2;
+            const dx = tapX - pacmanPixelX;
+            const dy = tapY - pacmanPixelY;
+            if (Math.abs(dx) > Math.abs(dy)) { pacman.nextDx = Math.sign(dx); pacman.nextDy = 0; } 
+            else { pacman.nextDx = 0; pacman.nextDy = Math.sign(dy); }
+        };
+
+        function drawMap() {
+            for (let y = 0; y < map.length; y++) {
+                for (let x = 0; x < map[y].length; x++) {
+                    if (map[y][x] === 1) { ctx.fillStyle = '#2121DE'; ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE); }
+                    else if (map[y][x] === 2) { ctx.fillStyle = '#FFB8AE'; ctx.fillRect(x * TILE_SIZE + 7, y * TILE_SIZE + 7, 3, 3); }
+                    else if (map[y][x] === 3) { ctx.fillStyle = '#FFB8AE'; ctx.beginPath(); ctx.arc(x * TILE_SIZE + 8, y * TILE_SIZE + 8, 5, 0, 2 * Math.PI); ctx.fill(); }
+                }
+            }
+        }
+
+        function checkCollisions() {
+            for (const ghost of ghosts) {
+                const dx = pacman.x - ghost.x, dy = pacman.y - ghost.y;
+                if (Math.sqrt(dx*dx + dy*dy) < 0.8) {
+                    if (powerPelletActive) {
+                        sounds.eatGhost.play().catch(e => {});
+                        score += 200;
+                        ghost.reset();
+                    } else {
+                        stopGame();
+                    }
+                }
+            }
+        }
+
+        function stopGame() {
+            gameState = 'gameOver';
+            sounds.siren.pause();
+            sounds.death.play().catch(e => {});
+        }
+
+        function gameLoop() {
+            if (gameState === 'gameOver') {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white'; ctx.font = '40px sans-serif'; ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+                ctx.font = '20px sans-serif';
+                ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
+                ctx.fillText('Click to Restart', canvas.width / 2, canvas.height - 30);
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawMap();
+            pacman.update();
+            pacman.draw();
+            ghosts.forEach(g => { if(gameState === 'playing') g.update(pacman); g.draw(); });
+            checkCollisions();
+
+            ctx.fillStyle = 'white'; ctx.font = '20px sans-serif'; ctx.textAlign = 'left';
+            ctx.fillText(`Score: ${score}`, 10, 20);
+
+            if (gameState === 'playing' && sounds.gameStart.paused && sounds.siren.paused) {
+                sounds.siren.play().catch(e => {});
+            }
+
+            if (gameState !== 'ready') {
+                animationFrameId = requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function cleanup() {
+            gameState = 'ready';
+            cancelAnimationFrame(animationFrameId);
             clearTimeout(powerPelletTimer);
-            sounds.siren.playbackRate=1.5;
+            Object.values(sounds).forEach(sound => { sound.pause(); sound.currentTime = 0; });
+            document.removeEventListener('keydown', keydownHandler);
+            canvas.removeEventListener('click', tapHandler);
+        }
 
-            sounds.eatGhost.play().catch(e=> {});
-            ghosts.forEach(g=> g.frighten());
-
-            powerPelletTimer=setTimeout(()=> {
-                    powerPelletActive=false;
-                    ghosts.forEach(g=> g.unfrighten());
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                if (mutation.attributeName === 'class' && !gameContainer.classList.contains('active')) {
+                    cleanup();
                 }
+            });
+        });
+        observer.observe(gameContainer, { attributes: true });
 
-                , 8000); // 8 seconds of power
-        }
-    }
-
-    class Ghost {
-        constructor(x, y, emoji) {
-            this.x=x;
-            this.y=y;
-            this.emoji=emoji;
-            this.isFrightened=false;
-            this.originalEmoji=emoji;
-        }
-
-        draw() {
-            ctx.font=`$ {
-                TILE_SIZE
-            }
-
-            px sans-serif`;
-            const displayEmoji=this.isFrightened ? '😨' : this.emoji;
-            ctx.fillText(displayEmoji, this.x * TILE_SIZE, (this.y + 1) * TILE_SIZE - 4);
-        }
-
-        update(target) {
-            const dx=target.x - this.x,
-            dy=target.y - this.y;
-            let moveX=0,
-            moveY=0;
-
-            if (Math.abs(dx) > Math.abs(dy)) {
-                moveX=Math.sign(dx);
-            }
-
-            else {
-                moveY=Math.sign(dy);
-            }
-
-            if (this.canMove(moveX, moveY)) {
-                this.x+=moveX * 0.05;
-            }
-
-            // Ghost speed
-            if (this.canMove(0, moveY)) {
-                this.y+=moveY * 0.05;
-            }
-        }
-
-        canMove(dx, dy) {
-            return map[Math.round(this.y + dy)] && map[Math.round(this.y + dy)][Math.round(this.x + dx)] !==1;
-        }
-
-        frighten() {
-            this.isFrightened=true;
-        }
-
-        unfrighten() {
-            this.isFrightened=false;
-            sounds.siren.playbackRate=1;
-        }
-
-        reset() {
-            this.x=13;
-            this.y=11;
-            this.unfrighten();
-        }
-    }
-
-    let pacman=new Pacman(1, 1);
-    let ghosts=[ new Ghost(13, 11, '😡'),
-    new Ghost(14, 11, '😡'),
-    new Ghost(13, 15, '😡'),
-    new Ghost(14, 15, '😡')];
-
-    const keydownHandler=e=> {
-        if (gameState !=='playing') return;
-
-        if (e.key==='ArrowUp') {
-            pacman.nextDx=0;
-            pacman.nextDy=-1;
-        }
-
-        else if (e.key==='ArrowDown') {
-            pacman.nextDx=0;
-            pacman.nextDy=1;
-        }
-
-        else if (e.key==='ArrowLeft') {
-            pacman.nextDx=-1;
-            pacman.nextDy=0;
-        }
-
-        else if (e.key==='ArrowRight') {
-            pacman.nextDx=1;
-            pacman.nextDy=0;
-        }
-    }
-
-    ;
-
-    const tapHandler=e=> {
-        const rect=canvas.getBoundingClientRect();
-        const tapX=e.clientX - rect.left;
-        const tapY=e.clientY - rect.top;
-
-        if (gameState==='gameOver') {
+        function startGame() {
             cleanup();
-            startGame();
-            return;
+            sounds.siren.loop = true;
+            document.addEventListener('keydown', keydownHandler);
+            canvas.addEventListener('click', tapHandler);
+            
+            sounds.gameStart.play().catch(e => {});
+            gameState = 'playing';
+            gameLoop();
         }
 
-        if (gameState !=='playing') return;
-
-        const pacmanPixelX=pacman.x * TILE_SIZE+TILE_SIZE / 2;
-        const pacmanPixelY=pacman.y * TILE_SIZE+TILE_SIZE / 2;
-        const dx=tapX - pacmanPixelX;
-        const dy=tapY - pacmanPixelY;
-
-        if (Math.abs(dx) > Math.abs(dy)) {
-            pacman.nextDx=Math.sign(dx);
-            pacman.nextDy=0;
+        // --- Initializer ---
+        // This function now waits for assets before starting.
+        function initialize() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.font = '20px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading Game...', canvas.width / 2, canvas.height / 2);
+            
+            orinHeadAsset.onload = startGame;
+            if (orinHeadAsset.complete) startGame(); // If image is cached, start immediately.
         }
-
-        else {
-            pacman.nextDx=0;
-            pacman.nextDy=Math.sign(dy);
-        }
+        initialize();
     }
 
-    ;
+    // ---
+    //
+    //  REMOVED InteractiveDemo() FUNCTION
+    //
+    // ---
 
-    function drawMap() {
-        for (let y=0; y < map.length; y++) {
-            for (let x=0; x < map[y].length; x++) {
-                if (map[y][x]===1) {
-                    ctx.fillStyle='#2121DE';
-                    ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                }
-
-                else if (map[y][x]===2) {
-                    ctx.fillStyle='#FFB8AE';
-                    ctx.fillRect(x * TILE_SIZE + 7, y * TILE_SIZE + 7, 3, 3);
-                }
-
-                else if (map[y][x]===3) {
-                    ctx.fillStyle='#FFB8AE';
-                    ctx.beginPath();
-                    ctx.arc(x * TILE_SIZE + 8, y * TILE_SIZE + 8, 5, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
-            }
-        }
-    }
-
-    function checkCollisions() {
-        for (const ghost of ghosts) {
-            const dx=pacman.x - ghost.x,
-            dy=pacman.y - ghost.y;
-
-            if (Math.sqrt(dx*dx + dy*dy) < 0.8) {
-                if (powerPelletActive) {
-                    sounds.eatGhost.play().catch(e=> {});
-                    score+=200;
-                    ghost.reset();
-                }
-
-                else {
-                    stopGame();
-                }
-            }
-        }
-    }
-
-    function stopGame() {
-        gameState='gameOver';
-        sounds.siren.pause();
-
-        sounds.death.play().catch(e=> {});
-    }
-
-    function gameLoop() {
-        if (gameState==='gameOver') {
-            ctx.fillStyle='rgba(0,0,0,0.7)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle='white';
-            ctx.font='40px sans-serif';
-            ctx.textAlign='center';
-            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
-            ctx.font='20px sans-serif';
-
-            ctx.fillText(`Score: $ {
-                    score
-                }
-
-                `, canvas.width / 2, canvas.height / 2 + 40);
-            ctx.fillText('Click to Restart', canvas.width / 2, canvas.height - 30);
-            return;
-        }
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawMap();
-        pacman.update();
-        pacman.draw();
-
-        ghosts.forEach(g=> {
-                if(gameState==='playing') g.update(pacman); g.draw();
-            });
-        checkCollisions();
-
-        ctx.fillStyle='white';
-        ctx.font='20px sans-serif';
-        ctx.textAlign='left';
-
-        ctx.fillText(`Score: $ {
-                score
-            }
-
-            `, 10, 20);
-
-        if (gameState==='playing' && sounds.gameStart.paused && sounds.siren.paused) {
-            sounds.siren.play().catch(e=> {});
-        }
-
-        if (gameState !=='ready') {
-            animationFrameId=requestAnimationFrame(gameLoop);
-        }
-    }
-
-    function cleanup() {
-        gameState='ready';
-        cancelAnimationFrame(animationFrameId);
-        clearTimeout(powerPelletTimer);
-
-        Object.values(sounds).forEach(sound=> {
-                sound.pause(); sound.currentTime=0;
-            });
-        document.removeEventListener('keydown', keydownHandler);
-        canvas.removeEventListener('click', tapHandler);
-    }
-
-    const observer=new MutationObserver(mutations=> {
-            mutations.forEach(mutation=> {
-                    if (mutation.attributeName==='class' && !gameContainer.classList.contains('active')) {
-                        cleanup();
-                    }
-                });
+    // --- CHARTS MANAGER MODULE ---
+    function ChartsManager() {
+        window.chartInstances = {};
+        
+        const getChartColors = () => ({
+            gridColor: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+            tickColor: document.documentElement.classList.contains('dark') ? '#A0AEC0' : '#718096',
+            accentGreen: '#38F8A8',
         });
 
-    observer.observe(gameContainer, {
-        attributes: true
-    });
+        function createMarketGrowthChart() {
+            const ctx = document.getElementById('marketGrowthChart')?.getContext('2d');
+            if (!ctx) return;
+            const colors = getChartColors();
+            Chart.defaults.color = colors.tickColor;
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            
+            window.chartInstances.marketGrowthChart = new Chart(ctx, {
+                type: 'line', data: { labels: ['2024', '2026', '2028', '2030'], datasets: [
+                    { label: 'Chatbot ($B)', data: [7.76, 12, 19, 27.3], borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.1)', fill: true, tension: 0.4, pointRadius: 0 },
+                    { label: 'AI Cust Serv ($B)', data: [12.06, 18, 29, 47.82], borderColor: colors.accentGreen, backgroundColor: 'rgba(56, 248, 168, 0.2)', fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: colors.accentGreen, borderWidth: 3 },
+                    { label: 'Multimodal AI ($B)', data: [2, 5, 12, 42.38], borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.1)', fill: true, tension: 0.4, pointRadius: 0 }
+                ] }, options: { responsive: true, plugins: { legend: { labels: { color: colors.tickColor } } }, scales: { y: { ticks: { color: colors.tickColor }, grid: { color: colors.gridColor } }, x: { ticks: { color: colors.tickColor }, grid: { color: colors.gridColor } } } }
+            });
+        }
+        
+        function createRoiChart() {
+            const ctx = document.getElementById('roiChart')?.getContext('2d');
+            if (!ctx) return;
+            const colors = getChartColors();
+            Chart.defaults.color = colors.tickColor;
 
-function startGame() {
-    cleanup();
-    sounds.siren.loop=true;
-    document.addEventListener('keydown', keydownHandler);
-    canvas.addEventListener('click', tapHandler);
-
-    sounds.gameStart.play().catch(e=> {});
-    gameState='playing';
-    gameLoop();
-}
-
-// --- Initializer ---
-// This function now waits for assets before starting.
-function initialize() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle='white';
-    ctx.font='20px sans-serif';
-    ctx.textAlign='center';
-    ctx.fillText('Loading Game...', canvas.width / 2, canvas.height / 2);
-
-    orinHeadAsset.onload=startGame;
-    if (orinHeadAsset.complete) startGame(); // If image is cached, start immediately.
-}
-
-initialize();
-}
-
-// ---
-//
-//  REMOVED InteractiveDemo() FUNCTION
-//
-// ---
-
-// --- CHARTS MANAGER MODULE ---
-function ChartsManager() {
-    window.chartInstances= {}
-
-    ;
-
-    const getChartColors=()=>({
-        gridColor: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-        tickColor: document.documentElement.classList.contains('dark') ? '#A0AEC0' : '#718096',
-        accentGreen: '#38F8A8',
-    });
-
-function createMarketGrowthChart() {
-    const ctx=document.getElementById('marketGrowthChart')?.getContext('2d');
-    if ( !ctx) return;
-    const colors=getChartColors();
-    Chart.defaults.color=colors.tickColor;
-    Chart.defaults.font.family="'Inter', sans-serif";
-
-    window.chartInstances.marketGrowthChart=new Chart(ctx, {
-        type: 'line', data: {
-            labels: ['2024', '2026', '2028', '2030'], datasets: [ {
-                label: 'Chatbot ($B)', data: [7.76, 12, 19, 27.3], borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.1)', fill: true, tension: 0.4, pointRadius: 0
-            }
-
-            ,
-            {
-            label: 'AI Cust Serv ($B)', data: [12.06, 18, 29, 47.82], borderColor: colors.accentGreen, backgroundColor: 'rgba(56, 248, 168, 0.2)', fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: colors.accentGreen, borderWidth: 3
+            window.chartInstances.roiChart = new Chart(ctx, {
+                type: 'bar', data: { labels: ['Small Biz', 'Medium Biz', 'Large Biz', 'Enterprise'], datasets: [{ label: 'Annual ROI (%)', data: [2158, 10792, 43171, 215857], backgroundColor: ['#3B82F680', '#8B5CF680', '#DB277780', colors.accentGreen + '80'], borderColor: ['#3B82F6', '#8B5CF6', '#DB2777', colors.accentGreen], borderWidth: 2, borderRadius: 6 }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { y: { ticks: { color: colors.tickColor }, grid: { display: false } }, x: { type: 'logarithmic', ticks: { color: colors.tickColor, callback: (value) => { if(value === 1000 || value === 10000 || value === 100000 || value === 1000000) return value.toLocaleString() + '%'; } }, grid: { color: colors.gridColor } } } }
+            });
         }
 
-        ,
-        {
-        label: 'Multimodal AI ($B)', data: [2, 5, 12, 42.38], borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.1)', fill: true, tension: 0.4, pointRadius: 0
-    }
-
-    ]
-}
-
-, options: {
-    responsive: true, plugins: {
-        legend: {
-            labels: {
-                color: colors.tickColor
-            }
-        }
-    }
-
-    , scales: {
-        y: {
-            ticks: {
-                color: colors.tickColor
-            }
-
-            , grid: {
-                color: colors.gridColor
-            }
-        }
-
-        , x: {
-            ticks: {
-                color: colors.tickColor
-            }
-
-            , grid: {
-                color: colors.gridColor
-            }
-        }
-    }
-}
-});
-}
-
-function createRoiChart() {
-    const ctx=document.getElementById('roiChart')?.getContext('2d');
-    if ( !ctx) return;
-    const colors=getChartColors();
-    Chart.defaults.color=colors.tickColor;
-
-    window.chartInstances.roiChart=new Chart(ctx, {
-        type: 'bar', data: {
-            labels: ['Small Biz', 'Medium Biz', 'Large Biz', 'Enterprise'], datasets: [ {
-                label: 'Annual ROI (%)', data: [2158, 10792, 43171, 215857], backgroundColor: ['#3B82F680', '#8B5CF680', '#DB277780', colors.accentGreen + '80'], borderColor: ['#3B82F6', '#8B5CF6', '#DB2777', colors.accentGreen], borderWidth: 2, borderRadius: 6
-            }
-
-            ]
-        }
-
-        , options: {
-            responsive: true, indexAxis: 'y', plugins: {
-                legend: {
-                    display: false
-                }
-            }
-
-            , scales: {
-                y: {
-                    ticks: {
-                        color: colors.tickColor
-                    }
-
-                    , grid: {
-                        display: false
-                    }
-                }
-
-                , x: {
-                    type: 'logarithmic', ticks: {
-                        color: colors.tickColor, callback: (value)=> {
-                            if(value===1000 || value===10000 || value===100000 || value===1000000) return value.toLocaleString() + '%';
-                        }
-                    }
-
-                    , grid: {
-                        color: colors.gridColor
-                    }
-                }
-            }
-        }
-    });
-}
-
-const chartObserver=new IntersectionObserver((entries, obs)=> {
-        entries.forEach(entry=> {
+        const chartObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const chartId=entry.target.id;
-                    if (chartId==='marketGrowthChart' && !window.chartInstances.marketGrowthChart) createMarketGrowthChart();
-                    if (chartId==='roiChart' && !window.chartInstances.roiChart) createRoiChart();
+                    const chartId = entry.target.id;
+                    if (chartId === 'marketGrowthChart' && !window.chartInstances.marketGrowthChart) createMarketGrowthChart();
+                    if (chartId === 'roiChart' && !window.chartInstances.roiChart) createRoiChart();
                     obs.unobserve(entry.target);
                 }
             });
+        }, { threshold: 0.5 });
+
+        function initializeCharts() {
+            document.querySelectorAll('canvas').forEach(canvas => chartObserver.observe(canvas));
+        }
+
+        function destroyAndRecreateCharts() {
+            Object.values(window.chartInstances).forEach(chart => { if(chart) chart.destroy(); });
+            window.chartInstances = {};
+            initializeCharts();
+        }
+
+        window.addEventListener('themeChanged', destroyAndRecreateCharts);
+        initializeCharts();
     }
 
-    , {
-    threshold: 0.5
-});
-
-function initializeCharts() {
-    document.querySelectorAll('canvas').forEach(canvas=> chartObserver.observe(canvas));
-}
-
-function destroyAndRecreateCharts() {
-    Object.values(window.chartInstances).forEach(chart=> {
-            if(chart) chart.destroy();
-        });
-
-    window.chartInstances= {}
-
-    ;
-    initializeCharts();
-}
-
-window.addEventListener('themeChanged', destroyAndRecreateCharts);
-initializeCharts();
-}
-
-// --- MOUSE EFFECTS MODULE ---
-function MouseEffects() {}
-
-// --- CANVAS EFFECTS MODULE ---
-function CanvasEffects() {
-    const canvas=document.getElementById('background-canvas');
-    if ( !canvas) return;
-    const ctx=canvas.getContext('2d');
-    let particlesArray;
-    let animationFrameId;
-
-    function setCanvasSize() {
-        canvas.width=window.innerWidth;
-        canvas.height=window.innerHeight;
+    // --- MOUSE EFFECTS MODULE ---
+    function MouseEffects() {
     }
 
-    function getParticleColors() {
-        const isDark=document.documentElement.classList.contains('dark');
+    // --- CANVAS EFFECTS MODULE ---
+    function CanvasEffects() {
+        const canvas = document.getElementById('background-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        let animationFrameId;
 
-        return {
-            // Ternary operator for theme-based colors
-            particleColor: isDark ? 'rgba(56, 248, 168, 0.8)': 'rgba(45, 212, 191, 0.8)',
-                lineColor: isDark ? 'rgba(56, 248, 168, 0.1)': 'rgba(45, 212, 191, 0.1)'
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        function getParticleColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return { // Ternary operator for theme-based colors
+                particleColor: isDark ? 'rgba(56, 248, 168, 0.8)' : 'rgba(45, 212, 191, 0.8)',
+                lineColor: isDark ? 'rgba(56, 248, 168, 0.1)' : 'rgba(45, 212, 191, 0.1)'
+            };
         }
 
-        ;
-    }
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
 
-    class Particle {
-        constructor(x, y, directionX, directionY, size, color) {
-            this.x=x;
-            this.y=y;
-            this.directionX=directionX;
-            this.directionY=directionY;
-            this.size=size;
-            this.color=color;
+                // Parallax effect on scroll
+                const scrollY = window.scrollY;
+                this.y += (this.size / 4) * (scrollY - (this.y + scrollY)) * 0.001;
+            }
         }
 
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            ctx.fillStyle=this.color;
-            ctx.fill();
+        function init() {
+            setCanvasSize();
+            const { particleColor } = getParticleColors();
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * .4) - .2;
+                let directionY = (Math.random() * .4) - .2;
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
+            }
         }
 
-        update() {
-            if (this.x > canvas.width || this.x < 0) this.directionX=-this.directionX;
-            if (this.y > canvas.height || this.y < 0) this.directionY=-this.directionY;
-            this.x+=this.directionX;
-            this.y+=this.directionY;
-            this.draw();
-
-            // Parallax effect on scroll
-            const scrollY=window.scrollY;
-            this.y+=(this.size / 4) * (scrollY - (this.y + scrollY)) * 0.001;
-        }
-    }
-
-    function init() {
-        setCanvasSize();
-
-        const {
-            particleColor
-        }
-
-        =getParticleColors();
-        particlesArray=[];
-        let numberOfParticles=(canvas.height * canvas.width) / 9000;
-
-        for (let i=0; i < numberOfParticles; i++) {
-            let size=(Math.random() * 2)+1;
-            let x=(Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-            let y=(Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-            let directionX=(Math.random() * .4) - .2;
-            let directionY=(Math.random() * .4) - .2;
-            particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
-        }
-    }
-
-    function connect() {
-        const {
-            lineColor
-        }
-
-        =getParticleColors();
-        let opacityValue=1;
-
-        for (let a=0; a < particlesArray.length; a++) {
-            for (let b=a; b < particlesArray.length; b++) {
-                let distance=((particlesArray[a].x - particlesArray[b].x) ** 2)+((particlesArray[a].y - particlesArray[b].y) ** 2);
-
-                if (distance < 20000) {
-                    // Optimization: Reduced connection distance
-                    opacityValue=1 - (distance/20000);
-
-                    ctx.strokeStyle=lineColor.replace(/, \s*\d*\.?\d*\)/, `, $ {
-                            opacityValue
-                        })`);
-                    ctx.lineWidth=1;
-                    ctx.beginPath();
-                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                    ctx.stroke();
+        function connect() {
+            const { lineColor } = getParticleColors();
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + ((particlesArray[a].y - particlesArray[b].y) ** 2); 
+                    if (distance < 20000) { // Optimization: Reduced connection distance
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = lineColor.replace(/,\s*\d*\.?\d*\)/, `, ${opacityValue})`);
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
                 }
             }
         }
-    }
 
-    function animate() {
-        animationFrameId=requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-        for (let i=0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
+        function animate() {
+            animationFrameId = requestAnimationFrame(animate);
+            ctx.clearRect(0,0,innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
         }
+        
+        function reinitCanvas() {
+            cancelAnimationFrame(animationFrameId);
+            init();
+            animate();
+        };
 
-        connect();
-    }
-
-    function reinitCanvas() {
-        cancelAnimationFrame(animationFrameId);
+        window.addEventListener('resize', () => {
+            cancelAnimationFrame(animationFrameId);
+            clearTimeout(window.resizeLag);
+            window.resizeLag = setTimeout(reinitCanvas, 250);
+        });
+        
+        window.addEventListener('themeChanged', reinitCanvas);
+        
         init();
         animate();
     }
-
-    ;
-
-    window.addEventListener('resize', ()=> {
-            cancelAnimationFrame(animationFrameId);
-            clearTimeout(window.resizeLag);
-            window.resizeLag=setTimeout(reinitCanvas, 250);
-        });
-
-    window.addEventListener('themeChanged', reinitCanvas);
-
-    init();
-    animate();
-}
-
-</script></html>
+    </script>
+</html>
