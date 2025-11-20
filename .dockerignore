@@ -1,0 +1,67 @@
+# Development dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Build and dist
+dist/
+build/
+out/
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.env.local
+.env.*.local
+
+# Testing
+.coverage/
+.nyc_output/
+
+# Misc
+.cache/
+tmp/
+temp/
+*.log
+*.pid
+*.seed
+
+# Environment files (keep .env.example)
+.env
+.env.development
+.env.production
+
+# Dependencies lockfile backup
+package-lock.json
+yarn.lock
+
+# Docker
+Dockerfile
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Deploy scripts
+deploy.sh
+
+# Documentation
+README.md
+docs/
+
+# Render
+render.yaml
