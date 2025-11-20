@@ -15,7 +15,7 @@ RUN cd orin-revamp && npm install
 COPY . .
 
 # Build the React app
-RUN npm run build
+# RUN npm run build - React source files not in repo, skipping build
 
 # Production stage
 FROM node:20-alpine
@@ -30,7 +30,7 @@ RUN npm install --production
 COPY server.js .
 COPY index.html .
 # Copy built React app from builder
-COPY --from=builder /app/orin-revamp/dist ./orin-revamp/dist
+# COPY --from=builder /app/orin-revamp/dist ./orin-revamp/dist - skipped, React not built
 
 # Expose port for Render
 EXPOSE 3000
