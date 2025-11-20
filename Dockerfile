@@ -26,8 +26,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies for runtime
-RUN npm install --production && npm cache clean --force --ignore-scripts
-
+RUN npm install --production
 # Copy server.js and other source files from repo root
 COPY server.js .
 COPY index.html .
