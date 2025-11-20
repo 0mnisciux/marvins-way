@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -28,9 +29,8 @@ app.use(express.static(path.join(__dirname, 'orin-revamp/dist')));
 // Root endpoint
 // Serve legacy.html at root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'legacy.html'));
-});
-app.get('/api/status', (req, res) => {
+    res.sendFile('./legacy.html', { root: '/app' });
+  });
   res.json({
     status: 'running',
     environment: process.env.NODE_ENV || 'development',
