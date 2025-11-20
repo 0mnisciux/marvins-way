@@ -29,13 +29,7 @@ app.use(express.static(path.join(__dirname, 'orin-revamp/dist')));
 // Root endpoint
 // Serve legacy.html at root
 app.get('/', (req, res) => {
-    res.sendFile('./legacy.html', { root: '/app' });
-  });
-  res.json({
-    status: 'running',
-    environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
-  });
+  res.sendFile(path.join(__dirname, 'legacy.html'));
 });
 
 // 404 handler - return JSON for unmatched routes
