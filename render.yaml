@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: orin-revamp
+    runtime: node
+    runtimeVersion: 20
+    startCommand: npm run start
+    buildCommand: npm run build
+    plan: free
+    memoryGB: 0.5
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    env: node
+    disk:
+      name: storage
+      size: 1GB
+
+environments:
+  production:
+    autoDeploy: true
+    previewEnvs: false
