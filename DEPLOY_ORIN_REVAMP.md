@@ -1,180 +1,328 @@
-# Deploy ORIN Revamp to Render (Free Tier)
+# ORIN AI - Production Deployment Guide
 
-**Complete guide to deploying the integrated orin-revamp site on Render for $0/month**
+## 🎉 Deployment Status: LIVE
 
----
-
-## Architecture Overview
-
-This repo (`kodigo-ng-kawalan`) integrates:
-- **Frontend**: orin-revamp (React + Vite + TypeScript)
-- **Backend**: Express.js server
-- **Deployment**: Render.com (free tier)
-- **Build Process**: Multi-stage Docker build
+**Production URL:** https://orin.work  
+**Status:** ✅ Deployed and Live  
+**Cost:** $0/month (Free Tier)  
+**Last Updated:** December 2, 2025
 
 ---
 
-## Prerequisites
+## 📊 Deployment Summary
 
-1. **GitHub Account** - repo already set up
-2. **Render Account** - Sign up at https://render.com (free)
-3. **Node.js 20+** - for local testing
+| Component | Service | Status | URL | Cost |
+|-----------|---------|--------|-----|------|
+| Frontend | Render Static Site | ✅ Live | https://orin.work | $0 |
+| Repository | GitHub | ✅ Active | github.com/[USERNAME]/orin-revamp | $0 |
+| Domain | Custom Domain | ✅ Verified | orin.work | $0 |
+| SSL | Let's Encrypt | ✅ Active | HTTPS Enabled | $0 |
+| Auto-Deploy | GitHub Integration | ✅ Enabled | On commit to main | $0 |
 
 ---
 
-## Step 1: Verify Local Build
+## 🎯 What's Deployed
 
-Before deploying, test locally:
+### Gen Z Modern Design
+- ✅ Particle network background with smooth parallax
+- ✅ Glitch typography effects
+- ✅ Neon green (#38F8A8) accent colors
+- ✅ Glassmorphism UI cards with 3D effects
+- ✅ Dark mode theme throughout
 
-```bash
-# Clone the repo
-git clone https://github.com/makagagahum/kodigo-ng-kawalan.git
-cd kodigo-ng-kawalan
+### Key Features
+- ✅ **Pricing:** ₱10,000 MONTHLY (never abbreviated)
+- ✅ **Floating CTA:** "HIRE ORIN" button (bottom-right, sticky)
+- ✅ **Customer Ticker:** Cute cartoon avatars with Taglish messages
+- ✅ **Team Section:** Marvin (CEO, CTO, CFO & Creative Director)
+- ✅ **Footer:** "Organic Intelligence AI" and "© 2025 OASIS INC."
 
-# Install dependencies
-npm install
-cd orin-revamp
-npm install
-cd ..
+### Technical Stack
+- **Framework:** React + TypeScript + Vite
+- **Build:** Multi-file architecture (not single HTML)
+- **Dependencies:** No paid APIs required
+- **Performance:** Optimized, no lag
 
-# Build orin-revamp
-npm run build
+---
 
-# Start server
-npm start
+## 🚀 Auto-Deployment Workflow
 
-# Visit http://localhost:3000
+### How It Works
+
+```
+Google AI Studio → GitHub → Render → orin.work
+    (Edit)      (Commit)   (Build)   (Live)
 ```
 
-**Expected Result**: Express server runs, serves orin-revamp static files from `/orin-revamp/dist`
+### Step-by-Step Process
+
+1. **Edit Code** in Google AI Studio
+   - URL: aistudio.google.com/apps/[PROJECT_ID]
+   - Make changes to any component
+
+2. **Save to GitHub**
+   - Click "Save to GitHub" button
+   - Commits are pushed to `main` branch
+   - Repository: github.com/[USERNAME]/orin-revamp
+
+3. **Automatic Build**
+   - Render detects new commit
+   - Runs: `npm run build`
+   - Output: `dist/` folder
+   - Duration: 2-3 minutes
+
+4. **Live Deployment**
+   - New version goes live at orin.work
+   - SSL certificate auto-renews
+   - Zero downtime deployment
 
 ---
 
-## Step 2: Push to GitHub (if not already done)
+## ⚙️ Render Configuration
 
+### Service Settings
+
+**Service Name:** orin-revamp-1  
+**Service Type:** Static Site  
+**Region:** Global (CDN)
+
+**Build Settings:**
 ```bash
-git add .
-git commit -m "feat: Ready for Render deployment"
-git push origin main
+Build Command: npm run build
+Publish Directory: dist
+Auto-Deploy: Yes (on push to main)
+```
+
+**Environment:**
+```
+Node Version: 20.x
+Build Environment: Production
+```
+
+### Custom Domain Configuration
+
+**Primary Domain:** orin.work  
+**DNS Status:** ✅ Domain Verified  
+**SSL Status:** ✅ Certificate Issued (Let's Encrypt)  
+**Redirect:** www.orin.work → orin.work
+
+**DNS Records (if needed):**
+```
+Type: CNAME or ALIAS
+Name: @ (or root)
+Value: orin-revamp-1.onrender.com
+
+Type: CNAME  
+Name: www
+Value: orin-revamp-1.onrender.com
 ```
 
 ---
 
-## Step 3: Create Render Web Service
+## 📝 Repository Structure
 
-### 3.1 Login to Render Dashboard
-- Go to https://dashboard.render.com
-- Sign in with GitHub
-
-### 3.2 Connect GitHub Repository
-- Click **New** > **Web Service**
-- Select **GitHub**
-- Click **Connect Account** (if not already connected)
-- Search for `kodigo-ng-kawalan`
-- Click **Connect**
-
-### 3.3 Configure Web Service
-
-**Basic Settings:**
-- **Name**: `orin-revamp` (or your preferred name)
-- **Region**: Closest to your users (e.g., Singapore for Asia)
-- **Branch**: `main`
-- **Runtime**: `Docker`
-- **Build Command**: (Auto-detected from Dockerfile)
-- **Start Command**: (Auto-detected from Dockerfile)
-
-**Environment**: Leave blank for now (free tier)
-
-### 3.4 Choose Free Tier
-- **Instance Type**: Free (0.5 CPU, 512 MB RAM)
-- This is sufficient for a static React site + small Node.js backend
-
-### 3.5 Deploy
-- Click **Create Web Service**
-- Render will build and deploy automatically
-- Build logs appear in real-time
+```
+orin-revamp/
+├── src/
+│   ├── components/
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── Pricing.tsx
+│   │   ├── Team.tsx
+│   │   └── ...
+│   ├── App.tsx
+│   └── main.tsx
+├── public/
+├── dist/              # Build output (auto-generated)
+├── package.json
+├── vite.config.ts
+└── README.md
+```
 
 ---
 
-## Step 4: Monitor Deployment
+## 🔄 Making Updates
 
-### Checking Status
-1. Go to your service dashboard
-2. Watch **Logs** tab for build progress
-3. When complete, see **Live URL** at top (e.g., `https://orin-revamp.onrender.com`)
+### Quick Update Process
 
-### Common Build Issues
+1. Open Google AI Studio  
+2. Make your changes  
+3. Click "Save to GitHub"  
+4. Wait 2-3 minutes  
+5. Refresh orin.work
 
-| Issue | Fix |
-|-------|-----|
-| Build fails: npm not found | Render auto-detects Node.js. If fails, add engines to package.json |
-| Build fails: orin-revamp not found | Ensure /orin-revamp/package.json exists. |
-| Service crashes | Check logs. Missing env vars or port issues. |
-| Slow first load | Normal - free tier cold starts. |
+### No Manual Steps Required!
 
----
-
-## Step 5: Environment Variables (Optional)
-
-If you add API keys or secrets:
-
-1. Go to service dashboard > **Environment**
-2. Add variables
-3. Redeploy
+Every commit to GitHub automatically triggers:
+- Build on Render
+- Deployment to production
+- SSL certificate renewal (if needed)
+- CDN cache invalidation
 
 ---
 
-## Free Tier Limits
+## 🎯 Kodigo ng Kawalan Philosophy
 
-- **CPU**: 0.5 (shared)
-- **RAM**: 512 MB
-- **Auto-sleep**: After 15 min inactivity
-- **Bandwidth**: 100 GB/month
-
----
-
-## Auto-Deploy on Push
-
-Render automatically deploys on every push to `main` branch!
+✅ **Unix-like:** Multi-file, modular architecture  
+✅ **Open:** All code in public GitHub repository  
+✅ **Free:** $0/month deployment cost  
+✅ **No Paywalls:** Works without paid APIs  
+✅ **No Vendor Lock-in:** Can migrate anytime  
+✅ **Auto-Deploy:** Push to GitHub = Live in minutes
 
 ---
 
-## Verification Checklist
-
-- [ ] Service is live at your Render URL
-- [ ] Frontend loads without errors
-- [ ] Static assets load correctly
-- [ ] Logs show no errors
-
----
-
-## Troubleshooting
-
-### Service Won't Start
-Check Render dashboard logs for errors
+## 🛠️ Troubleshooting
 
 ### Build Fails
-Verify:
-1. Dockerfile paths are correct
-2. orin-revamp/package.json exists
-3. Node.js version >= 20.0.0
 
-### Site is Slow
-1. Cold start after 15 min sleep (normal)
-2. Check bundle size with `npm run build`
+**Check:**
+- Build command is `npm run build`
+- Publish directory is `dist`
+- Node version is 20.x or higher
+
+**Solution:**
+```bash
+# Test locally first
+npm install
+npm run build
+npm run preview
+```
+
+### Domain Not Working
+
+**Check:**
+- DNS records are configured correctly
+- Domain verification status in Render
+- SSL certificate is issued
+
+**Solution:**
+- Click "Verify" button in Render Custom Domains
+- Wait 5-10 minutes for DNS propagation
+- Check SSL status
+
+### Site Not Updating
+
+**Check:**
+- Commit was pushed to GitHub
+- Render detected the commit
+- Build completed successfully
+
+**Solution:**
+- Check Render Events tab for build logs
+- Manually trigger deploy if needed
+- Clear browser cache (Ctrl+Shift+R)
 
 ---
 
-## Next Steps
+## 📊 Monitoring
 
-- Deploy to Render now!
-- Add custom domain
-- Integrate Cloudflare CDN
-- Add monitoring
+### Render Dashboard
+
+**URL:** dashboard.render.com/static/[SERVICE_ID]
+
+**Monitor:**
+- Build status and logs
+- Deployment history
+- Traffic metrics (on paid plans)
+- SSL certificate status
+
+### GitHub
+
+**Repository:** github.com/[USERNAME]/orin-revamp
+
+**Track:**
+- Commit history
+- Code changes
+- Branch status
 
 ---
 
-## Support
+## 🔒 Security Notes
 
-**Render Docs**: https://render.com/docs  
-**GitHub Issues**: Report problems in repo
+### Private Information Censored
+
+- ❌ Deploy hooks (regenerate if exposed)
+- ❌ Service IDs
+- ❌ Account details
+- ✅ All sensitive data removed from documentation
+
+### Best Practices
+
+1. **Never commit:**
+   - API keys
+   - Passwords
+   - Deploy hooks
+   - Personal information
+
+2. **Use environment variables for:**
+   - API endpoints
+   - Feature flags
+   - Configuration settings
+
+3. **Keep private:**
+   - Render deploy hooks
+   - Admin URLs
+   - Service credentials
+
+---
+
+## ✨ Features Checklist
+
+### Design Requirements
+- ✅ Gen Z particle network background
+- ✅ Exaggerated parallax (smooth, no motion sickness)
+- ✅ Glitch typography on "24/7"
+- ✅ Glassmorphism cards
+- ✅ Neon green (#38F8A8) accents
+- ✅ Dark mode theme
+
+### Content Requirements
+- ✅ Pricing: ₱10,000 MONTHLY (never "10k")
+- ✅ Floating "HIRE ORIN" button (sticky, bottom-right)
+- ✅ Customer ticker with cute cartoon avatars
+- ✅ Taglish messages ("Matic yan! P10k monthly lang")
+- ✅ Asian/Filipino people in photos
+
+### Team Section
+- ✅ Marvin: CEO, CTO, CFO & Creative Director (abbreviated)
+- ✅ Left-aligned avatar style
+- ✅ "VIEW PORTFOLIO" button → marvin-resume.onrender.com
+- ✅ Smaller team photos
+
+### Footer
+- ✅ "Organic Intelligence AI"
+- ✅ "© 2025 OASIS INC."
+- ✅ Social media links
+
+### Technical
+- ✅ Multi-file React/TypeScript/Vite
+- ✅ No paid APIs required
+- ✅ Free Gemini fallback (optional)
+- ✅ No performance lag
+- ✅ Mobile responsive
+
+---
+
+## 🎉 Success!
+
+Your ORIN AI website is now:
+- ✅ Live at orin.work
+- ✅ Auto-deploying from Google AI Studio
+- ✅ Costing $0/month
+- ✅ Following kodigo ng kawalan philosophy
+- ✅ Fully functional with all features
+
+**Update anytime by pushing to GitHub from Google AI Studio!**
+
+---
+
+## 📞 Support
+
+For issues or questions:
+1. Check Render build logs
+2. Verify GitHub commit history
+3. Test locally with `npm run build`
+4. Check DNS configuration
+
+**Remember:** All deployments are automatic. Just push to GitHub and wait 2-3 minutes!
