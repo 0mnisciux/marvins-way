@@ -38,7 +38,7 @@ This isn't just a tech stack. It's a philosophical approach to infrastructure th
 
 Each role has its own folder, its own documentation, its own identity. Each one follows the principle: **do one thing well**.
 
----## The Foundation: Rooted in Obsession
+## The Foundation: Rooted in Obsession
 
 Understanding infrastructure requires understanding obsession. Real obsession. The kind that makes you brick your phone repeatedly not because you're reckless, but because you're trying to understand. To control. To own the device in your hand.
 
