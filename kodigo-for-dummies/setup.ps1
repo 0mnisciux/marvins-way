@@ -1,3 +1,55 @@
+<#
+.SYNOPSIS
+    Kodigo ng Kawalan: Likha sa Wala - Cloud Infrastructure Setup
+    Created from Nothing - Build enterprise infrastructure in minutes
+
+.AUTHOR
+    Marvin S. Villanueva
+    Email: marvin@orin.work
+    Website: marvin.orin.work
+    GitHub: makagagahum/kodigo-ng-kawalan
+
+.VERSION
+    Version: 1.0.0-beta (Likha sa Wala Edition)
+    Last Updated: 2025-12-02
+    Auto-Update: Daily (via platform documentation scraping)
+
+.PHILOSOPHY
+    "Likha sa Wala" - Creation from Nothing
+    
+    This tool embodies the principle of bootstrapping: starting with zero
+    infrastructure and building a complete, enterprise-grade cloud ecosystem
+    using only free-tier services. No local servers. No databases on your machine.
+    Pure cloud-native architecture.
+    
+    Every line of code here is designed for:
+    - Accessibility: Anyone can set this up, anywhere
+    - Resilience: Built on proven, free-tier platforms
+    - Scalability: Grows with your needs
+    - Sustainability: Cost-effective forever
+    
+    We believe building great infrastructure shouldn't require venture capital.
+    It should require only creativity, determination, and the right tools.
+    
+    Likha sa Wala = Your dream infrastructure starts here.
+
+.COMPATIBILITY
+    - PowerShell 5.1+ (Windows)
+    - PowerShell 7.x+ (Windows, macOS, Linux)
+    - Bash/Zsh (macOS, Linux) - Use setup.sh instead
+    - TESTED ON:
+      * Windows 10/11 with PowerShell 5.1 & 7.x
+      * macOS 12+ with bash/zsh
+      * Ubuntu 20.04+ with bash
+      * Debian 11+ with bash
+
+.SUPPORT
+    Questions? Issues? Feature requests?
+    Contact: marvin@orin.work
+    GitHub Issues: github.com/makagagahum/kodigo-ng-kawalan/issues
+
+#>
+
 # Kodigo ng Kawalan: Likha sa Wala
 # Cloud Infrastructure (PowerShell 7.x Compatible)
 # CLOUD-ONLY | NO Local Dependencies | All services run in cloud
@@ -113,3 +165,24 @@ Write-Magenta "  - Rotate tokens regularly"
 Write-Magenta "  - Never commit tokens to git (use .gitignore)"
 
 Write-Green "`n🚀 Happy Cloud Building! Likha sa Wala!"`
+
+
+# Version Information
+Write-Green "`n======================================"
+Write-Green "Kodigo ng Kawalan: Likha sa Wala v1.0.0-beta"
+Write-Green "Made by: Marvin S. Villanueva"
+Write-Green "Email: marvin@orin.work"
+Write-Green "Website: marvin.orin.work"
+Write-Green "======================================`n"
+
+# PowerShell Version Check (Compatible with 5.1 and 7.x)
+Write-Cyan "Checking PowerShell version..."
+$PSVersion = $PSVersionTable.PSVersion.Major
+if ($PSVersion -ge 5) {
+    Write-Green "✓ PowerShell $PSVersion detected - Fully compatible"
+} else {
+    Write-Yellow "WARNING: PowerShell $PSVersion detected. This script works best with PowerShell 5.1+"
+}
+
+Write-Green "`n🚀 Happy Cloud Building! Likha sa Wala!"
+Write-Cyan "For support, visit: marvin.orin.work or email marvin@orin.work`n"
