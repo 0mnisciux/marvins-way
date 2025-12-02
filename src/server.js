@@ -14,8 +14,8 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'orin-revamp/dist')));
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../orin-revamp/dist')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -23,13 +23,14 @@ app.get('/health', (req, res) => {
 });
 
 // Serve static files from orin-revamp dist
-app.use(express.static(path.join(__dirname, 'orin-revamp/dist')));
+app.use(express.static(path.join(__dirname, '../orin-revamp/dist')));
 
 // API routes can go here
+
 // Root endpoint
 // Serve legacy.html at root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'legacy.html'));
+  res.sendFile(path.join(__dirname, '../public/legacy.html'));
 });
 
 // 404 handler - return JSON for unmatched routes
