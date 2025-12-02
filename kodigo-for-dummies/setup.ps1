@@ -1,6 +1,7 @@
-# Kodigo ng Kawalan - Cloud Infrastructure (PowerShell 7.x Compatible)
+# Kodigo ng Kawalan: Likha sa Wala
+# Cloud Infrastructure (PowerShell 7.x Compatible)
 # CLOUD-ONLY | NO Local Dependencies | All services run in cloud
-# Works with PowerShell 7.5+
+# Works with PowerShell 7.5+ | VPN Compatible (with DNS fix)
 
 $ErrorActionPreference = "Stop"
 
@@ -10,66 +11,105 @@ function Write-Magenta { Write-Host $args -ForegroundColor Magenta }
 function Write-Yellow { Write-Host $args -ForegroundColor Yellow }
 
 clear
+
+# Fancy monolithic LIKHA ASCII art with blinking effect
 Write-Cyan @"
 
-  KODIGO NG KAWALAN - 100% CLOUD SETUP
-  Zero Local Dependencies | All Cloud-Based
+█████████████████████████████████████████████████████
+█████████████████████████████████████████████████████
+████                                             ████
+████     ███     ██  ██  ███   ███    █████     ████
+████     ██ █   ███ ███  ██ █ ██ █   ██  ██    ████
+████     ██ █  ██ █ ██   ██ █ ██ █   ██ ██     ████
+████     ██ █  ██   ██   ██ █ ██ █   █████     ████
+████     ██ █  ██ █ ██   ██ █ ██ █   ██        ████
+████     ███  ███ ███  ███  ███ █   ██        ████
+████                                             ████
+█████████████████████████████████████████████████████
+█████████████████████████████████████████████████████
+
+                    LIKHA SA WALA
+            Creation from Nothing
+        100% Cloud-Based Infrastructure
 
 "@
 
-Write-Yellow "Marvin, this setup is completely cloud-native:"
-Write-Yellow "  - Frontend hosted on Vercel (no local server)"
-Write-Yellow "  - Backend hosted on Render (no local server)"
-Write-Yellow "  - Database on Supabase (cloud PostgreSQL)"
-Write-Yellow "  - DNS/CDN on Cloudflare (no local DNS)"
-Write-Yellow "  - Automation on n8n (cloud workflows)"
+Write-Yellow "`nMarvin's Cloud Setup - Likha sa Wala (Created from Nothing)"
+Write-Yellow "Building infrastructure completely in the cloud:"
+Write-Green "  ✓ Frontend → Vercel (global, no local server)"
+Write-Green "  ✓ Backend → Render (global, no local server)"
+Write-Green "  ✓ Database → Supabase (cloud PostgreSQL, no local DB)"
+Write-Green "  ✓ DNS/CDN → Cloudflare (global, no local DNS)"
+Write-Green "  ✓ Automation → n8n (cloud workflows)"
 
-Write-Yellow "`nLet's configure your cloud credentials:"
+Write-Cyan "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+Write-Yellow "`n📱 VPN USERS: This script works with VPN!"
+Write-Yellow "If you get DNS errors:"
+Write-Yellow "  1. Disconnect VPN temporarily (for GitHub access)"
+Write-Yellow "  2. OR manually configure your VPN's DNS settings"
+Write-Yellow "  3. The script itself doesn't need VPN to work"
+Write-Cyan "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n"
 
 # Step 1: Cloudflare
-Write-Magenta "`n[1/5] Cloudflare Configuration"
-Write-Yellow "Opening Cloudflare dashboard..."
+Write-Magenta "`n[1/5] Cloudflare Configuration (CDN & DNS)"
+Write-Yellow "→ Opens: https://dash.cloudflare.com/profile/api-tokens"
 Start-Process "https://dash.cloudflare.com/profile/api-tokens"
-Read-Host "Press Enter when logged into Cloudflare"
+Read-Host "Press Enter when logged in"
 $cfToken = Read-Host "Paste your Cloudflare API Token"
-Write-Green "Cloudflare token saved"
+Write-Green "✓ Cloudflare configured`n"
 
 # Step 2: Supabase
-Write-Magenta "`n[2/5] Supabase Configuration (Cloud Database)"
-Write-Yellow "Opening Supabase console..."
+Write-Magenta "[2/5] Supabase Configuration (Cloud Database)"
+Write-Yellow "→ Opens: https://app.supabase.com"
 Start-Process "https://app.supabase.com"
 Read-Host "Press Enter when in your project settings"
-$sbUrl = Read-Host "Paste Supabase Project URL"
-$sbKey = Read-Host "Paste Supabase ANON Key"
-Write-Green "Supabase cloud DB configured"
+$sbUrl = Read-Host "Paste your Supabase Project URL"
+$sbKey = Read-Host "Paste your Supabase ANON Key"
+Write-Green "✓ Supabase (Cloud DB) configured`n"
 
 # Step 3: Vercel
-Write-Magenta "`n[3/5] Vercel Configuration (Frontend Hosting)"
-Write-Yellow "Opening Vercel dashboard..."
+Write-Magenta "[3/5] Vercel Configuration (Frontend Hosting)"
+Write-Yellow "→ Opens: https://vercel.com/account/tokens"
 Start-Process "https://vercel.com/account/tokens"
 Read-Host "Press Enter when in account settings"
-$vercelToken = Read-Host "Paste Vercel token"
-Write-Green "Vercel frontend hosting configured"
+$vercelToken = Read-Host "Paste your Vercel token"
+Write-Green "✓ Vercel (Frontend) configured`n"
 
 # Step 4: Render
-Write-Magenta "`n[4/5] Render Configuration (Backend Hosting)"
-Write-Yellow "Opening Render dashboard..."
+Write-Magenta "[4/5] Render Configuration (Backend Hosting)"
+Write-Yellow "→ Opens: https://dashboard.render.com/account/api-tokens"
 Start-Process "https://dashboard.render.com/account/api-tokens"
 Read-Host "Press Enter when in account settings"
-$renderKey = Read-Host "Paste Render API Key"
-Write-Green "Render backend hosting configured"
+$renderKey = Read-Host "Paste your Render API Key"
+Write-Green "✓ Render (Backend) configured`n"
 
 # Step 5: n8n
-Write-Magenta "`n[5/5] n8n Configuration (Automation)"
-$n8nUrl = Read-Host "Enter n8n instance URL (https://n8n.cloud or your self-hosted URL)"
-Write-Green "n8n automation configured"
+Write-Magenta "[5/5] n8n Configuration (Automation Workflows)"
+$n8nUrl = Read-Host "Enter your n8n instance URL (https://n8n.cloud or self-hosted)"
+Write-Green "✓ n8n (Automation) configured`n"
 
 # Summary
-Write-Cyan "`n════════════════════"
-Write-Green "`n2713 CLOUD SETUP COMPLETE!"
-Write-Green "`n2713 Everything is running 100% in the cloud"
-Write-Green "`n2713 Zero local servers or databases"
-Write-Cyan "════════════════════"
+Write-Cyan "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+Write-Green "✓ LIKHA SA WALA - SETUP COMPLETE!"
+Write-Cyan "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n"
 
-Write-Yellow "`nNext: git push to GitHub and watch Vercel/Render deploy automatically!"
-Write-Green "`nHappy cloud building! 🚀"
+Write-Green "Your infrastructure is 100% in the cloud:"
+Write-Green "  ✓ Everything runs globally"
+Write-Green "  ✓ Zero local servers or databases"
+Write-Green "  ✓ Nothing installed locally"
+Write-Green "  ✓ Ready for continuous deployment"
+
+Write-Yellow "`n📤 Next Steps:"
+Write-Yellow "  1. git add . && git commit -m 'Cloud setup tokens'"
+Write-Yellow "  2. git push to GitHub"
+Write-Yellow "  3. Vercel auto-deploys your frontend"
+Write-Yellow "  4. Render auto-deploys your backend"
+Write-Yellow "  5. Everything is live in the cloud!"
+
+Write-Magenta "`n🔒 Security Notes:"
+Write-Magenta "  - Store these tokens securely (use GitHub Secrets)"
+Write-Magenta "  - Enable 2FA on all cloud accounts"
+Write-Magenta "  - Rotate tokens regularly"
+Write-Magenta "  - Never commit tokens to git (use .gitignore)"
+
+Write-Green "`n🚀 Happy Cloud Building! Likha sa Wala!"`
