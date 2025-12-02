@@ -22,16 +22,19 @@ I'm Marvin. This is what I believe. This is what works. This is what I'm buildin
 
 This isn't just a tech stack. It's a philosophical approach to infrastructure that works with entropy instead of against it. Eight distinct roles, each following Unix principles, unified into something functional.
 
-| Role | Focus | Folder | Status |
-|------|-------|--------|--------|
-| **Automation Engineer** | n8n workflows, task automation, API integrations | [/n8n](/n8n) | Active |
-| **Cybersecurity Specialist** | DDoS protection, SSL/TLS, hardening, security | [/security-hardening](/security-hardening) | Active |
-| **Full-Stack Developer** | Bug fixes, performance, maintenance, deployment | [/bug-fixes](/bug-fixes) | Active |
-| **DevOps Engineer** | Docker, Render deployment, infrastructure | Infrastructure as Code | Active |
-| **Database Administrator** | PostgreSQL optimization, Supabase, pooling | [Database Layer](/docs) | Active |
-| **Email Administrator** | Mailu setup, mail infrastructure, DNS | [Email Layer](/docs) | Active |
-| **AI/ML Engineer** | ORIN AI agents, production setup, models | [/orin-revamp](/orin-revamp) | Active |
-| **AI Personality Architect** | Behavioral AI design, psychological frameworks, prompt mastery | [/ai-personality-architect](/ai-personality-architect) | 🆕 Active |
+|| Role | Focus | Folder | Monthly Salary | Daily Rate |
+| --- | --- | --- | --- | --- |
+| **Automation Engineer** | n8n workflows, task automation, API integrations | [/n8n](/n8n) | $4500-$9000 | ₱216-₱432/day |
+| **Cybersecurity Specialist** | DDoS protection, SSL/TLS, hardening, security | [/security-hardening](/security-hardening) | $5600-$12500 | ₱269-₱600/day |
+| **Full-Stack Developer** | Bug fixes, performance, maintenance, deployment | [/bug-fixes](/bug-fixes) | $5200-$10800 | ₱250-₱519/day |
+| **DevOps Engineer** | Docker, Render deployment, infrastructure | Infrastructure as Code | $6000-$13000 | ₱288-₱625/day |
+| **Database Administrator** | PostgreSQL optimization, Supabase, pooling | [Database Layer](/docs) | $5200-$10200 | ₱250-₱490/day |
+| **Email Administrator** | Mailu setup, mail infrastructure, DNS | [Email Layer](/docs) | $4800-$8600 | ₱231-₱413/day |
+| **AI/ML Engineer** | ORIN AI agents, production setup, models | [/orin-revamp](/orin-revamp) | $7200-$13800 | ₱346-₱663/day |
+| **AI Personality Architect** | Behavioral AI design, psychological frameworks | [/ai-personality-architect](/ai-personality-architect) | $4200-$8300 | ₱202-₱399/day |
+| *Average Filipino Salary* | *Baseline for comparison* | --- | *₱12000-₱15000/month* | *₱576-₱722/day* |
+
+
 
 Each role has its own folder, its own documentation, its own identity. Each one follows the principle: **do one thing well**.
 
