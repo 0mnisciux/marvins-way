@@ -27,7 +27,7 @@ COPY package*.json ./
 # Install only production dependencies for runtime
 RUN npm install --production
 # Copy server.js and other source files from repo root
-COPY server.js .
+COPY src/server.js .
 # COPY index.html . - legacy file, skipped
 # Copy built React app from builder
 # COPY --from=builder /app/orin-revamp/dist ./orin-revamp/dist - skipped, React not built
