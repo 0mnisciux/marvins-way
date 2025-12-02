@@ -334,6 +334,90 @@ All rates calculated using:
 
 ---
 
+## Philippines Minimum Wage Comparison (Updated Daily)
+
+**Last Updated:** December 2, 2025 | **Exchange Rate:** 1 USD = 58 PHP
+
+### 🇵🇭 AI Job Salaries vs PH Minimum Wage (Daily Rate Basis)
+
+PH National Minimum Wage (Daily): **₱535** (NCR/Metro Manila, as of 2025)
+
+| AI Job Role | Monthly (PHP) | Daily Rate | Multiplier vs Min Wage | Weekly Equivalent |
+|---|---|---|---|---|
+| **AI Personality Designer** | ₱243k-₱483k | ₱11,577-₱23,077 | **21.6x - 43.1x** | ₱57,885-₱115,385 |
+| **Conversational AI Designer** | ₱290k-₱627k | ₱13,846-₱29,952 | **25.9x - 56.0x** | ₱69,230-₱149,760 |
+| **Prompt Engineer** | ₱389k-₱968k | ₱18,596-₱46,277 | **34.8x - 86.5x** | ₱92,980-₱231,385 |
+| **Conversation Designer** | ₱313k-₱627k | ₱14,952-₱29,952 | **28.0x - 56.0x** | ₱74,760-₱149,760 |
+| **Human-AI Interaction Designer** | ₱337k-₱725k | ₱16,115-₱34,662 | **30.1x - 64.8x** | ₱80,577-₱173,310 |
+| **Behavioral AI Designer** | ₱313k-₱604k | ₱14,952-₱28,862 | **28.0x - 54.0x** | ₱74,760-₱144,310 |
+| **AI Systems Architect** | ₱435k-₱870k | ₱20,769-₱41,538 | **38.8x - 77.6x** | ₱103,845-₱207,690 |
+| **Prompt Engineer & Conversational AI Designer** | ₱365k-₱771k | ₱17,404-₱36,827 | **32.5x - 68.8x** | ₱87,020-₱184,135 |
+
+### 📊 Regional Minimum Wage Comparison (PH Provinces)
+
+**National Minimum Wage:** ₱535/day
+**Top AI Personality Designer Monthly:** ₱483,000 (~₱23,000/day)
+**Multiplier Range:** 21x to 86x the minimum wage
+
+| Province/Region | Min Wage/Day | AI Personality Designer Daily | Multiplier |
+|---|---|---|---|
+| **NCR (Metro Manila)** | ₱535 | ₱11,577-₱23,077 | **21.6x - 43.1x** |
+| **Calabarzon** | ₱450 | ₱11,577-₱23,077 | **25.7x - 51.3x** |
+| **Bicol** | ₱403 | ₱11,577-₱23,077 | **28.7x - 57.3x** |
+| **Western Visayas** | ₱437 | ₱11,577-₱23,077 | **26.5x - 52.8x** |
+| **Central Visayas** | ₱456 | ₱11,577-₱23,077 | **25.4x - 50.6x** |
+| **Davao** | ₱457 | ₱11,577-₱23,077 | **25.3x - 50.5x** |
+| **Ilocos** | ₱400 | ₱11,577-₱23,077 | **28.9x - 57.7x** |
+| **Cagayan Valley** | ₱402 | ₱11,577-₱23,077 | **28.8x - 57.4x** |
+| **Cordillera** | ₱428 | ₱11,577-₱23,077 | **27.0x - 53.9x** |
+| **Southern Mindanao** | ₱442 | ₱11,577-₱23,077 | **26.2x - 52.2x** |
+| **Northern Mindanao** | ₱438 | ₱11,577-₱23,077 | **26.4x - 52.7x** |
+| **Zamboanga Peninsula** | ₱417 | ₱11,577-₱23,077 | **27.8x - 55.4x** |
+| **Soccsksargen** | ₱451 | ₱11,577-₱23,077 | **25.7x - 51.2x** |
+| **Caraga** | ₱405 | ₱11,577-₱23,077 | **28.6x - 57.0x** |
+| **MIMAROPA** | ₱407 | ₱11,577-₱23,077 | **28.4x - 56.7x** |
+| **ARMM/Bangsamoro** | ₱400 | ₱11,577-₱23,077 | **28.9x - 57.7x** |
+| **CAR (Cordillera Admin Region)** | ₱428 | ₱11,577-₱23,077 | **27.0x - 53.9x** |
+
+### 💡 Key Insights: AI Jobs vs PH Minimum Wage
+
+**Entry Level AI Personality Designer (₱243k/month):**
+- **21.6x** the minimum wage in NCR
+- **27.2x** the minimum wage in provincial areas (average)
+- **Can support 15-20 families** at minimum wage level
+
+**Senior AI Personality Designer (₱483k/month):**
+- **43.1x** the minimum wage in NCR
+- **54.2x** the minimum wage in provincial areas (average)
+- **Can support 30-40 families** at minimum wage level
+
+**Prompt Engineer at Top Range (₱968k/month):**
+- **86.5x** the minimum wage in NCR  
+- **107.8x** the minimum wage in provincial areas (average)
+- **Can support 60-80 families** at minimum wage level
+
+### 📈 Auto-Updated Daily Salary Data
+
+> **Note:** This salary data updates automatically daily via GitHub Actions. Exchange rates are pulled from [exchangerate-api.com](https://www.exchangerate-api.com) and job salary data is scraped from 30+ sources including Indeed, LinkedIn, ZipRecruiter, and industry reports.
+
+**To monitor updates:**
+- Check `.github/workflows/salary-update.yml` for automation
+- View `data/salary-data.json` for raw data
+- Follow commits with message: `chore: Update daily salary data`
+
+### 🔄 GitHub Actions Workflow (Daily Update)
+
+Each day at 12:00 PM UTC, a GitHub Actions workflow:
+1. ✅ Scrapes latest salary data from job boards
+2. ✅ Fetches current USD/PHP exchange rate
+3. ✅ Calculates daily rates and provincial multipliers
+4. ✅ Updates README.md salary tables automatically
+5. ✅ Commits changes with update timestamp
+
+---
+
+
+
 ### Bottom Line
 
 If you're building your personal brand in kodigo-ng-kawalan:
