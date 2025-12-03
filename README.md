@@ -337,5 +337,5 @@ That's it. No magic. Just layers, Unix philosophy, and obsession.
 
 ---
 
-**Still confused?** Email Marvin at [marvin@orin.work](mailto:marvin@orin.work) with your question. He'll explain it in even simpler terms.
+**Still confused?** Email me at [marvin@orin.work](mailto:marvin@orin.work) with your question. I'll explain it in even simpler terms.
 
