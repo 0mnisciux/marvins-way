@@ -117,3 +117,106 @@ That's the compounding effect of thoughtful automation.
 Check the setup guides. They contain everything from basic workflow setup to advanced performance tuning. Real examples from the production system.
 
 If something doesn't work, open an issue. I actually respond.
+
+---
+
+## Performance Optimization: Redis Queue Mode
+
+### Overview
+
+The n8n instance uses **Upstash Redis** (free tier) to enable queue mode for better performance and scalability. Queue mode allows workflows to run in parallel and handles execution spikes gracefully.
+
+### Configuration
+
+**Environment Variables (Hugging Face Space):**
+
+```bash
+QUEUE_BULL_REDIS_HOST=living-kite-10405.upstash.io
+QUEUE_BULL_REDIS_PORT=6379
+QUEUE_BULL_REDIS_TLS=true
+EXECUTIONS_MODE=queue
+```
+
+**Secret (Hugging Face Space):**
+
+```bash
+QUEUE_BULL_REDIS_PASSWORD=<stored-as-secret>
+```
+
+### Benefits
+
+- **Parallel Execution:** Multiple workflows can run simultaneously
+- **Better Performance:** Workflows execute faster with dedicated workers
+- **Spike Handling:** Redis queue buffers requests during traffic spikes
+- **Reliability:** Failed jobs can be retried automatically
+
+### Free Tier Limits
+
+- **Upstash Redis:** 10,000 commands/day, 256MB storage
+- More than sufficient for personal automation needs
+- Stays free forever
+
+---
+
+## Automatic Updates
+
+### Overview
+
+The n8n Space automatically updates to the latest Docker image every **Saturday at 3:00 AM Manila time** via GitHub Actions.
+
+### How It Works
+
+1. **GitHub Actions Workflow:** `.github/workflows/n8n-auto-update.yml`
+2. **Schedule:** Cron `'0 19 * * 5'` (Friday 7PM UTC = Saturday 3AM Manila)
+3. **Action:** Factory rebuild using Hugging Face API
+4. **Data Safety:** All workflows stored in Supabase PostgreSQL (never touched)
+
+### Workflow File
+
+```yaml
+name: Auto-Update n8n Space
+
+on:
+  schedule:
+    - cron: '0 19 * * 5'  # Every Saturday 3AM Manila time
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  update-space:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Factory Rebuild n8n Space
+        run: |
+          python -c "
+          from huggingface_hub import HfApi
+          api = HfApi(token='${{ secrets.HF_TOKEN }}')
+          api.restart_space(
+              repo_id='orinai/n8n',
+              factory_reboot=True
+          )
+          "
+```
+
+### GitHub Secret Required
+
+**Name:** `HF_TOKEN`  
+**Value:** Hugging Face token with write access to `spaces/orinai/n8n`  
+**Location:** Repository Settings → Secrets and variables → Actions → Repository secrets
+
+### Manual Trigger
+
+You can manually trigger an update:
+
+1. Go to Actions tab in GitHub
+2. Select "Auto-Update n8n Space" workflow
+3. Click "Run workflow"
+
+### What Gets Updated
+
+- ✅ n8n Docker image (latest version)
+- ✅ System dependencies
+- ❌ Workflows (safe in Supabase)
+- ❌ Credentials (safe in Supabase)
+- ❌ Environment variables (preserved)
+
+---
